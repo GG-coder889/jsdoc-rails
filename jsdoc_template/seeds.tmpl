@@ -1,0 +1,447 @@
+classes    = {}
+methods    = {}
+properties = {}
+params     = {}
+events     = {}
+exceptions = {}
+examples   = {}
+returns    = {}
+sees       = {}
+
+
+<for each="symbol" in="data">
+{!
+    var ownProperties = symbol.properties.filter(function($) {
+                            return $.memberOf == symbol.alias && !$.isNamespace;
+                        });
+
+    var ownMethods = symbol.methods.filter(function($) {
+                         return $.memberOf == symbol.alias  && !$.isNamespace;
+                     });
+
+    var ownEvents = symbol.events.filter(function($) {
+                        return $.memberOf == symbol.alias  && !$.isNamespace;
+                    });
+!}
+
+  # Class for {+ symbol.alias +}
+  classes['{+ symbol.alias +}'] = Jsdoc::Symbol.create(
+    'name'                   => {+ toRuby(symbol.name) +},
+    'alias'                  => {+ toRuby(symbol.alias) +},
+    'member_of'              => {+ toRuby(symbol.memberOf) +},
+    'symbol_type'            => {+ toRuby(symbol.symbolType) +},
+    'version'                => {+ toRuby(symbol.version) +},
+    'extends'                => {+ toRuby(symbol.extendsList) +},
+    'description'            => {+ toRuby(symbol.symbolDesc) +},
+    'defined_in'             => {+ toRuby(symbol.srcFile) +},
+    'since'                  => {+ toRuby(symbol.since) +},
+    'is_deprecated'          => {+ toRuby(!!symbol.deprecated) +},
+    'deprecated_description' => {+ toRuby(symbol.deprecated) +}
+  )
+
+  <if test="!symbol.isBuiltin() && (symbol.isNamespace || symbol.is('CONSTRUCTOR'))">
+    # Constructor for {+ symbol.alias +}
+    methods['{+ symbol.alias +}'] = Jsdoc::Function.create(
+      'symbol_id'     => classes['{+ symbol.alias +}'].id,
+      'name'          => {+ toRuby(symbol.name) +},
+      'alias'         => {+ toRuby(symbol.alias) +},
+      'member_of'     => {+ toRuby(symbol.memberOf) +},
+      'is_private'    => {+ toRuby(symbol.isPrivate) +},
+      'is_inner'      => {+ toRuby(symbol.isInner) +},
+      'is_static'     => {+ toRuby(symbol.isStatic) +},
+      'function_type' => "constructor",
+      'version'       => {+ toRuby(symbol.version) +},
+      'author'        => {+ toRuby(symbol.author) +},
+      'since'         => {+ toRuby(symbol.since) +},
+      'description'   => {+ toRuby(symbol.desc) +}
+    )
+    classes['{+ symbol.alias +}'].update_attribute('constructor_id', methods['{+ symbol.alias +}'].id)
+
+    <if test="symbol.params.length">
+      # Params for {+ symbol.alias +} constructor
+      {! var i = 1; !}
+      <for each="item" in="symbol.params">
+        # Param {+ symbol.alias +}({+ item.name +})
+        params['{+ symbol.alias +}({+ item.name +})'] = Jsdoc::Param.create(
+          'function_id' => methods['{+ symbol.alias +}'].id,
+          'name'        => {+ toRuby(item.name) +},
+          'order'       => {+ toRuby((i++)) +},
+          'default'     => {+ toRuby(item.defaultValue) +},
+          'is_optional' => {+ toRuby(item.isOptional) +},
+          'param_type'  => {+ toRuby(item.type) +},
+          'description' => {+ toRuby(item.desc) +}
+        )
+
+      </for>
+    </if>
+
+    <if test="symbol.example.length">
+      # Examples for {+ symbol.alias +}
+      {! var i = 1; !}
+      <for each="item" in="symbol.example">
+        examples['{+ symbol.alias +}:{+ (i++) +})'] = Jsdoc::Example.create(
+          'example_for_id' => methods['{+ symbol.alias +}'].id,
+          'example_for_type' => 'Jsdoc::Function',
+          'code' => {+ toRuby(item) +}
+        )
+      </for>
+    </if>
+
+
+    <if test="symbol.exceptions.length">
+      # Exceptions for {+ symbol.alias +} constructor
+      {! var i = 1; !}
+      <for each="item" in="symbol.exceptions">
+        # Exception {+ symbol.alias +}:{+ item.type +}
+        exceptions['{+ symbol.alias +}:{+ (i++) +})'] = Jsdoc::Throw.create(
+          'function_id' => methods['{+ symbol.alias +}'].id,
+          'throw_type'  => {+ toRuby(item.type) +},
+          'description' => {+ toRuby(item.desc) +}
+        )
+
+      </for>
+    </if>
+
+    <if test="symbol.requires.length">
+      # Requires for {+ symbol.alias +}
+      {! var i = 1; !}
+      <for each="item" in="symbol.requires">
+        # Require for {+ symbol.alias +}
+        requires['{+ symbol.alias +}:{+ (i++) +})'] = Jsdoc::Require.create(
+          'function_id' => methods['{+ symbol.alias +}'].id,
+          'require' => {+ toRuby(item) +}
+        )
+
+      </for>
+    </if>
+
+    <if test="symbol.see.length">
+      # Sees for {+ symbol.alias +}
+      {! var i = 1; !}
+      <for each="item" in="symbol.see">
+        # See for {+ symbol.alias +}
+        sees['{+ symbol.alias +}:{+ (i++) +})'] = Jsdoc::See.create(
+          'see_for_id' => methods['{+ symbol.alias +}'].id,
+          'see_for_type' => 'Jsdoc::Function',
+          'description' => {+ toRuby(item) +}
+        )
+
+      </for>
+    </if>
+  </if>
+
+  <if test="ownMethods.length">
+    # Methods for {+ symbol.alias +}
+    <for each="member" in="ownMethods">
+      # Method {+ member.alias +}
+      methods['{+ member.alias +}'] = Jsdoc::Function.create(
+        'symbol_id'     => classes['{+ symbol.alias +}'].id,
+        'name'          => {+ toRuby(member.name) +},
+        'alias'         => {+ toRuby(member.alias) +},
+        'member_of'     => {+ toRuby(member.memberOf) +},
+        'is_private'    => {+ toRuby(member.isPrivate) +},
+        'is_inner'      => {+ toRuby(member.isInner) +},
+        'is_static'     => {+ toRuby(member.isStatic) +},
+        'function_type' => "method",
+        'version'       => {+ toRuby(member.version) +},
+        'author'        => {+ toRuby(member.author) +},
+        'since'         => {+ toRuby(member.since) +},
+        'description'   => {+ toRuby(member.desc) +}
+      )
+
+      <if test="member.params.length">
+        # Params for {+ member.alias +}
+        {! var i = 1; !}
+        <for each="item" in="member.params">
+          # Param {+ member.alias +}({+ item.name +})
+          params['{+ member.alias +}({+ item.name +})'] = Jsdoc::Param.create(
+            'function_id' => methods['{+ member.alias +}'].id,
+            'name'        => {+ toRuby(item.name) +},
+            'order'       => {+ toRuby((i++)) +},
+            'default'     => {+ toRuby(item.defaultValue) +},
+            'is_optional' => {+ toRuby(item.isOptional) +},
+            'param_type'  => {+ toRuby(item.type) +},
+            'description' => {+ toRuby(item.desc) +}
+          )
+        </for>
+      </if>
+
+      <if test="member.returns.length">
+        # Returns for {+ member.alias +}
+        {! var i = 1; !}
+        <for each="item" in="member.returns">
+          # Return {+ member.alias +}:{+ item.type +})
+          returns['{+ member.alias +}:{+ (i++) +})'] = Jsdoc::Return.create(
+            'function_id' => methods['{+ member.alias +}'].id,
+            'return_type'  => {+ toRuby(item.type) +},
+            'description' => {+ toRuby(item.desc) +}
+          )
+
+        </for>
+      </if>
+
+
+      <if test="member.example.length">
+        # Examples for method {+ member.alias +}
+        {! var i = 1; !}
+        <for each="item" in="member.example">
+          examples['{+ member.alias +}:{+ (i++) +})'] = Jsdoc::Example.create(
+            'example_for_id' => methods['{+ member.alias +}'].id,
+            'example_for_type' => 'Jsdoc::Function',
+            'code' => {+ toRuby(item) +}
+          )
+        </for>
+      </if>
+
+      <if test="member.exceptions.length">
+        # Exceptions for {+ member.alias +}
+        {! var i = 1; !}
+        <for each="item" in="member.exceptions">
+          # Exception {+ member.alias +}:{+ item.type +}
+          exceptions['{+ member.alias +}:{+ (i++) +})'] = Jsdoc::Throw.create(
+            'function_id' => methods['{+ member.alias +}'].id,
+            'throw_type'  => {+ toRuby(item.type) +},
+            'description' => {+ toRuby(item.desc) +}
+          )
+
+        </for>
+      </if>
+
+      <if test="member.requires.length">
+        # Requires for {+ member.alias +}
+        {! var i = 1; !}
+        <for each="item" in="member.requires">
+          # Require for {+ member.alias +}
+          requires['{+ member.alias +}:{+ (i++) +})'] = Jsdoc::Require.create(
+            'function_id' => methods['{+ member.alias +}'].id,
+            'require' => {+ toRuby(item) +}
+          )
+
+        </for>
+      </if>
+
+      <if test="member.see.length">
+        # Sees for {+ member.alias +}
+        {! var i = 1; !}
+        <for each="item" in="member.see">
+          # See for {+ member.alias +}
+          sees['{+ member.alias +}:{+ (i++) +})'] = Jsdoc::See.create(
+            'see_for_id' => methods['{+ member.alias +}'].id,
+            'see_for_type' => 'Jsdoc::Fuction',
+            'description' => {+ toRuby(item) +}
+          )
+
+        </for>
+      </if>
+    </for>
+  </if>
+
+  <if test="ownProperties.length">
+    # Properties for {+ symbol.alias +}
+    <for each="member" in="ownProperties">
+      properties['{+ member.alias +}'] = Jsdoc::Property.create(
+        'symbol_id'              => classes['{+ symbol.alias +}'].id,
+        'name'                   => {+ toRuby(member.name) +},
+        'alias'                  => {+ toRuby(member.alias) +},
+        'member_of'              => {+ toRuby(member.memberOf) +},
+        'is_private'             => {+ toRuby(member.isPrivate) +},
+        'is_inner'               => {+ toRuby(member.isInner) +},
+        'is_static'              => {+ toRuby(member.isStatic) +},
+        'is_constant'            => {+ toRuby(member.isConstant) +},
+        'defined_in'             => {+ toRuby(member.srcFile) +},
+        'property_type'          => {+ toRuby(member.type) +},
+        'author'                 => {+ toRuby(member.author) +},
+        'since'                  => {+ toRuby(member.since) +},
+        'default'                => {+ toRuby(member.defaultValue) +},
+        'version'                => {+ toRuby(member.version) +},
+        'is_deprecated'          => {+ toRuby(!!member.deprecated) +},
+        'deprecated_description' => {+ toRuby(member.deprecated) +},
+        'description'            => {+ toRuby(member.desc) +}
+      )
+
+
+      <if test="member.example.length">
+        # Examples for property {+ member.alias +}
+        {! var i = 1; !}
+        <for each="item" in="member.example">
+          examples['{+ member.alias +}:{+ (i++) +})'] = Jsdoc::Example.create(
+            'example_for_id' => properties['{+ member.alias +}'].id,
+            'example_for_type' => 'Jsdoc::Property',
+            'code' => {+ toRuby(item) +}
+          )
+        </for>
+      </if>
+
+      <if test="member.see.length">
+        # Sees for {+ member.alias +}
+        {! var i = 1; !}
+        <for each="item" in="member.see">
+          # See for {+ member.alias +}
+          sees['{+ member.alias +}:{+ (i++) +})'] = Jsdoc::See.create(
+            'see_for_id' => properties['{+ member.alias +}'].id,
+            'see_for_type' => 'Jsdoc::Property',
+            'description' => {+ toRuby(item) +}
+          )
+
+        </for>
+      </if>
+    </for>
+  </if>
+
+  <if test="ownEvents.length">
+    # Events for {+ symbol.alias +}
+    <for each="member" in="ownEvents">
+      # Event {+ member.alias +}
+      events['{+ member.alias +}'] = Jsdoc::Function.create(
+        'symbol_id'     => classes['{+ symbol.alias +}'].id,
+        'name'          => {+ toRuby(member.name) +},
+        'alias'         => {+ toRuby(member.alias) +},
+        'member_of'     => {+ toRuby(member.memberOf) +},
+        'is_private'    => {+ toRuby(member.isPrivate) +},
+        'is_inner'      => {+ toRuby(member.isInner) +},
+        'is_static'     => {+ toRuby(member.isStatic) +},
+        'function_type' => "event",
+        'version'       => {+ toRuby(member.version) +},
+        'author'        => {+ toRuby(member.author) +},
+        'since'         => {+ toRuby(member.since) +},
+        'description'   => {+ toRuby(member.desc) +}
+      )
+
+      <if test="member.params.length">
+        # Params for {+ member.alias +}
+        {! var i = 1; !}
+        <for each="item" in="member.params">
+          # Param {+ member.alias +}({+ item.name +})
+          params['{+ member.alias +}({+ item.name +})'] = Jsdoc::Param.create(
+            'function_id' => events['{+ member.alias +}'].id,
+            'name'        => {+ toRuby(item.name) +},
+            'order'       => {+ toRuby((i++)) +},
+            'default'     => {+ toRuby(item.defaultValue) +},
+            'is_optional' => {+ toRuby(item.isOptional) +},
+            'param_type'  => {+ toRuby(item.type) +},
+            'description' => {+ toRuby(item.desc) +}
+          )
+
+        </for>
+      </if>
+
+      <if test="member.returns.length">
+        # Returns for {+ member.alias +}
+        {! var i = 1; !}
+        <for each="item" in="member.returns">
+          # Return {+ member.alias +}:{+ item.type +})
+          returns['{+ member.alias +}:{+ (i++) +})'] = Jsdoc::Return.create(
+            'function_id' => methods['{+ member.alias +}'].id,
+            'return_type'  => {+ toRuby(item.type) +},
+            'description' => {+ toRuby(item.desc) +}
+          )
+
+        </for>
+      </if>
+
+
+      <if test="member.example.length">
+        # Examples for event {+ member.alias +}
+        {! var i = 1; !}
+        <for each="item" in="member.example">
+          examples['{+ member.alias +}:{+ (i++) +})'] = Jsdoc::Example.create(
+            'example_for_id' => events['{+ member.alias +}'].id,
+            'example_for_type' => 'Jsdoc::Function',
+            'code' => {+ toRuby(item) +}
+          )
+        </for>
+      </if>
+
+      <if test="member.exceptions.length">
+        # Exceptions for Event {+ member.alias +}
+        {! var i = 1; !}
+        <for each="item" in="member.exceptions">
+          # Exception {+ member.alias +}:{+ item.type +}
+          exceptions['{+ member.alias +}:{+ (i++) +})'] = Jsdoc::Throw.create(
+            'function_id' => events['{+ member.alias +}'].id,
+            'throw_type'  => {+ toRuby(item.type) +},
+            'description' => {+ toRuby(item.desc) +}
+          )
+
+        </for>
+      </if>
+
+      <if test="member.requires.length">
+        # Requires for Event {+ member.alias +}
+        {! var i = 1; !}
+        <for each="item" in="member.requires">
+          # Require for {+ member.alias +}
+          requires['{+ member.alias +}:{+ (i++) +})'] = Jsdoc::Require.create(
+            'function_id' => events['{+ member.alias +}'].id,
+            'require' => {+ toRuby(item) +}
+          )
+
+        </for>
+      </if>
+
+      <if test="member.see.length">
+        # Sees for Event {+ member.alias +}
+        {! var i = 1; !}
+        <for each="item" in="member.see">
+          # See for {+ member.alias +}
+          sees['{+ member.alias +}:{+ (i++) +})'] = Jsdoc::See.create(
+            'see_for_id' => events['{+ member.alias +}'].id,
+            'see_for_type' => 'Jsdoc::Fuction',
+            'description' => {+ toRuby(item) +}
+          )
+
+        </for>
+      </if>
+    </for>
+  </if>
+
+</for>
+
+<for each="symbol" in="data">
+{!
+    var borrowedProperties = symbol.properties.filter(function($) {
+                                 return $.memberOf != symbol.alias;
+                             });
+
+    var borrowedMethods = symbol.methods.filter(function($) {
+                              return $.memberOf != symbol.alias;
+                          });
+
+    var borrowedEvents = symbol.events.filter(function($) {
+                             return $.memberOf != symbol.alias;
+                         });
+!}
+  <if test="borrowedMethods.length">
+    # Borrowed methods for {+ symbol.alias +}
+    <for each="member" in="borrowedMethods">
+      Jsdoc::BorrowedFunction.create(
+        'borrowed_to_id' => classes['{+ symbol.alias +}'].id,
+        'borrowed_from_id' => classes['{+ member.memberOf +}'].id,
+        'function_id' => methods['{+ member.alias +}'].id
+      )
+    </for>
+  </if>
+
+
+  <if test="borrowedProperties.length">
+    # Borrowed properties for {+ symbol.alias +}
+    <for each="member" in="borrowedProperties">
+      Jsdoc::BorrowedProperty.create(
+        'borrowed_to_id' => classes['{+ symbol.alias +}'].id,
+        'borrowed_from_id' => classes['{+ member.memberOf +}'].id,
+        'property_id' => properties['{+ member.alias +}'].id
+      )
+    </for>
+  </if>
+
+  <if test="borrowedEvents.length">
+    # Borrowed events for {+ symbol.alias +}
+    <for each="member" in="borrowedEvents">
+      Jsdoc::BorrowedFunction.create(
+        'borrowed_to_id' => classes['{+ symbol.alias +}'].id,
+        'borrowed_from_id' => classes['{+ member.memberOf +}'].id,
+        'function_id' => events['{+ member.alias +}'].id
+      )
+    </for>
+  </if>
+</for>

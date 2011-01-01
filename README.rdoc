@@ -1,0 +1,49 @@
+= JSDoc for Rails 3
+
+This plugin allows you to load your Javascript documentation (using
+jsdoc-toolkit) into your Rails 3 application's database. This means you can
+easily create dynamic and searchable documentation.
+
+== Installation
+
+Edit your Gemfile and add this line
+
+  gem 'jsdoc-rails', :git => 'git://github.com/RyanWilliams/jsdoc-rails.git', :require => 'jsdoc'
+
+Then run
+
+  bundle install
+
+Now you need to generate the migrations to create the JSDoc tables. They are
+all prefixed with 'jsdoc_' so shouldn't conflict with anything you already
+have.
+
+  rails g jsdoc
+
+Migrate your database
+
+  rake db:migrate
+
+== Loading the data
+
+You will need version 2.x of the jsdoc-toolkit installed somewhere first. You can grab this from:
+http://code.google.com/p/jsdoc-toolkit/downloads/list
+
+The next step will write a file to db/seed.rb, if you don't want to overwrite
+an existing seed file make sure you do a backup.
+
+Run the rake task to generate the data:
+
+  rake jsdoc:seed SRC=/path/to/your/javascript/code JSDOC_HOME=/path/to/jsdoc-toolkit
+
+When that's finished you can load the seed data like so
+
+  rake db:seed
+
+If everything went to plan you can fire up the rails console and see a class
+
+  Jsdoc::Symbol.where(:symbol_type => 'class').first
+
+== Creating views
+
+TODO
