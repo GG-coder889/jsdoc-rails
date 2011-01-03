@@ -1,0 +1,20 @@
+<% if members.size > 0 %>
+  <table>
+    <thead>
+      <tr>
+        <th><%= member_label %></th>
+        <th>Defined By</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for m in members %>
+        <tr id="<%= member_type.underscore %>_<%= m.name %>">
+          <td><%= m.name %></td>
+          <td><%= m.symbol == @symbol ? @symbol.name : link_to(m.symbol.name, jsdoc_symbol_path(m.symbol.alias) + "##{member_type.underscore}_#{m.name}") %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  This <%= @symbol.symbol_type.downcase %> has no <%= member_label.downcase.pluralize %>.
+<% end %>

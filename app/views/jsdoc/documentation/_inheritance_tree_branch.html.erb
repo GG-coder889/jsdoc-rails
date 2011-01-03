@@ -1,0 +1,12 @@
+<ul>
+  <li>
+    <% if @symbol == branches.last %>
+      <%= branches.pop.name %>
+    <% else %>
+      <%= link_to(branches.last.name, jsdoc_symbol_path(branches.pop.alias)) %>
+    <% end %>
+    <% if branches.size > 0 %>
+      <%= render :partial => 'inheritance_tree_branch', :locals => {:branches => branches} %>
+    <% end %>
+  </li>
+</ul>

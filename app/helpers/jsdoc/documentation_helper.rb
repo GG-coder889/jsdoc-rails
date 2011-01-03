@@ -9,8 +9,8 @@ module Jsdoc::DocumentationHelper
 
   def full_class_list
     output = '<ul>'
-    Jsdoc::Symbol.where(:member_of => nil).each do |n|
-      output += '<li>' + list_namespace(n) + '</li>'
+    Jsdoc::Symbol.where(:member_of => nil).each do |child|
+      output += '<li>' + link_to(list_namespace(child), jsdoc_symbol_path(child.alias)) + '</li>'
     end
     output += '</ul>'
     return output.html_safe
@@ -21,12 +21,12 @@ module Jsdoc::DocumentationHelper
     if namespace.children.size > 0
       output += '<ul>'
       for child in namespace.children
-        output += '<li>' + list_namespace(child) + '</li>'
+        output += '<li>' + link_to(list_namespace(child), jsdoc_symbol_path(child.alias)) + '</li>'
       end
       output += '</ul>'
     end
 
 
-    return output
+    return output.html_safe
   end
 end
