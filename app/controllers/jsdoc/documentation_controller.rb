@@ -1,0 +1,6 @@
+module Jsdoc
+  class DocumentationController < ApplicationController
+    def index
+    end
+  end
+end

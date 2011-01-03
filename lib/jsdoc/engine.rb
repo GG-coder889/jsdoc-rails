@@ -8,6 +8,8 @@ module Jsdoc
   end
 
   class Engine < Rails::Engine
+    @@mount_point = '/documentation'
+    cattr_accessor :mount_point
 
     # We can add all of the public assets from our engine and make them
     # available to use.  This allows us to use javascripts, images, stylesheets

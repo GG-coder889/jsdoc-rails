@@ -10,5 +10,12 @@ module Jsdoc
 
     has_many :borrowed_functions,  :through => :borrowed_functions_join,  :source => :function
     has_many :borrowed_properties, :through => :borrowed_properties_join, :source => :property
+
+    has_many :children, :class_name => 'Jsdoc::Symbol', :foreign_key => :member_of, :primary_key => :alias
+
+    scope :namespaces, where(:symbol_type => 'namespace')
+    scope :classes, where(:symbol_type => 'class')
+    scope :functions, where(:symbol_type => 'function')
+
   end
 end
