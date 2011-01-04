@@ -17,6 +17,12 @@
             <% else %>
               <%= m.name %>
             <% end %>
+
+            <% if m.description.present? %>
+              <div class="description">
+                <%= raw(m.description) %>
+              </div>
+            <% end %>
           </td>
           <td><%= m.symbol == @symbol ? @symbol.name : link_to(m.symbol.name, jsdoc_symbol_path(m.symbol.alias) + "##{member_type.underscore}_#{m.name}") %></td>
         </tr>

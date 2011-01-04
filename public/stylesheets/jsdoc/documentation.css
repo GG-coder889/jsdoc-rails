@@ -11,6 +11,7 @@ body {
 }
 
 body > header {
+    margin-left: 1em;
     height: 50px;
     line-height: 50px;
 }
@@ -226,13 +227,17 @@ body > aside li li li li li li li li li a {
     border-radius: 8px;
 }
 
+#symbol_description {
+    margin-bottom: 5px;
+}
+
 table.members {
     border-collapse: collapse;
     width: 100%;
 }
 table.members th {
     background: #f0f0f0;
-    font-weight: normal;
+    font-weight: bold;
     text-align: left;
     padding: 3px;
 }
@@ -268,4 +273,7 @@ table.members a.member_link {
 table.members .param_name {
     font-family: "Lucida Console", "Courier New", Courier, monospace;
     font-size: 0.9em;
+}
+table.members .description {
+    margin-top: 5px;
 }

@@ -34,6 +34,13 @@
         <dd><%= @symbol.requires.join(', ') %></dd>
       <% end %>
     </dl>
+
+    <% if @symbol.description.present? %>
+      <section id="symbol_description">
+        <%= raw(@symbol.description) %>
+      </section>
+    <% end %>
+
   </header>
 
   <section id="public_members">
