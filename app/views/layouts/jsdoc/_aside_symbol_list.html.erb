@@ -1,0 +1,7 @@
+<nav>
+  <ul>
+    <li><%= link_to('API Documentation', root_path) %><ul>
+        <%= render :partial => 'layouts/jsdoc/symbol_tree_branch', :collection => Jsdoc::Symbol.where(:member_of => nil), :as => :symbol %>
+    </ul></li> 
+  </ul>
+</nav>

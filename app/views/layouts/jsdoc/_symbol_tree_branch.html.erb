@@ -1,0 +1,3 @@
+<li class="<%= symbol.symbol_type %><%= ' current' if symbol == @symbol %>"><%= link_to(symbol.name, jsdoc_symbol_path(symbol.alias)) %><% unless symbol.children.blank? %><ul>
+  <%= render :partial => 'layouts/jsdoc/symbol_tree_branch', :collection => symbol.children, :as => :symbol %>
+</ul><% end %></li>

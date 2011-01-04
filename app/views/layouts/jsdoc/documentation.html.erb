@@ -1,0 +1,23 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"> 
+    <title>API Documentation</title>
+    <%= stylesheet_link_tag 'jsdoc/documentation' %>
+  </head>
+  <body>
+    <header>
+      <h1>API Documentation</h1>
+    </header>
+    <aside>
+      <% if content_for?(:aside) %>
+        <%= yield :aside %>
+      <% else %>
+        <%= render :partial => 'layouts/jsdoc/aside_symbol_list' %>
+      <% end %>
+    </aside>
+    <div id="content">
+      <%= yield %>
+    </div>
+  </body>
+</html>

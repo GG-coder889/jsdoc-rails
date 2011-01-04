@@ -1,0 +1,106 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: Tahoma, Verdana, Helvetica, Arial, sans-serif;
+    font-size: 0.9em;
+    padding: 5px;
+}
+
+body > header {
+    height: 50px;
+    line-height: 50px;
+}
+h1, h2, h3, h4, h5 {
+    font-family: Trebuchet, "Trebuchet MS", "Bitstream Vera Sans", verdana, lucida, helvetica, arial, sans-serif;
+}
+body > header h1 {
+    margin: 0;
+}
+
+body > aside {
+    font-size: 0.75em;
+    width: 200px;
+    position: absolute;
+    left: 5px;
+    top: 60px;
+    bottom: 5px;
+    overflow: auto;
+}
+
+body > aside ul,
+body > aside li {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+body > aside li > a {
+    display: block;
+    line-height: 1.75em;
+    text-decoration: none;
+    color: #000;
+}
+body > aside li > a::before {
+    content: '';
+    display: block;
+    float: left;
+    width: 36px;
+    height: 1.75em;
+    background-position: 0px top, 18px center;
+    background-repeat: no-repeat;
+    background-image: url(../../images/jsdoc/icons/elbow.gif), url(../../images/jsdoc/icons/docs.gif);
+}
+body > aside li:last-child > a::before {
+    background-image: url(../../images/jsdoc/icons/elbow-end.gif), url(../../images/jsdoc/icons/docs.gif);  
+}
+body > aside li.class > a::before {
+    background-image: url(../../images/jsdoc/icons/elbow.gif), url(../../images/jsdoc/icons/class.gif);
+}
+body > aside li.class:last-child > a::before {
+    background-image: url(../../images/jsdoc/icons/elbow-end.gif), url(../../images/jsdoc/icons/class.gif);
+}
+body > aside li.namespace > a::before {
+    background-image: url(../../images/jsdoc/icons/elbow.gif), url(../../images/jsdoc/icons/pkg.gif);
+}
+body > aside li.namespace:last-child > a::before {
+    background-image: url(../../images/jsdoc/icons/elbow-end.gif), url(../../images/jsdoc/icons/pkg.gif);
+}
+body > aside li a:hover {
+    background-color: #ddd;
+    text-decoration: underline;
+}
+body > aside li li a {
+    padding-left: 20px;
+}
+body > aside li li li a {
+    padding-left: 40px;
+}
+body > aside li li li li a {
+    padding-left: 60px;
+}
+body > aside li li li li li a {
+    padding-left: 80px;
+}
+body > aside li li li li li li a {
+    padding-left: 100px;
+}
+body > aside li li li li li li li a {
+    padding-left: 120px;
+}
+body > aside li li li li li li li li a {
+    padding-left: 140px;
+}
+body > aside li li li li li li li li li a {
+    padding-left: 160px;
+}
+
+
+#content {
+    position: absolute;
+    top: 60px;
+    bottom: 5px;
+    left: 210px;
+    right: 5px;
+    overflow: auto;
+}
