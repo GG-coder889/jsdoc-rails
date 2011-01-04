@@ -2,13 +2,13 @@
   <table>
     <thead>
       <tr>
-        <th><%= member_label %></th>
+        <th><%= member_type.capitalize %></th>
         <th>Defined By</th>
       </tr>
     </thead>
     <tbody>
       <% for m in members %>
-        <tr id="<%= member_type.underscore %>_<%= m.name %>">
+        <tr id="<%= member_type.underscore %>_<%= m.name %>" class="<%= m.symbol == @symbol ? 'own' : 'borrowed' %>_<%= member_type.underscore %>">
           <td><%= m.name %></td>
           <td><%= m.symbol == @symbol ? @symbol.name : link_to(m.symbol.name, jsdoc_symbol_path(m.symbol.alias) + "##{member_type.underscore}_#{m.name}") %></td>
         </tr>
@@ -16,5 +16,5 @@
     </tbody>
   </table>
 <% else %>
-  This <%= @symbol.symbol_type.downcase %> has no <%= member_label.downcase.pluralize %>.
+  This <%= @symbol.symbol_type.downcase %> has no <%= member_type.downcase.pluralize %>.
 <% end %>

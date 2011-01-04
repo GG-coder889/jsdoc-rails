@@ -36,67 +36,60 @@
 </section>
 
 <section id="public_members">
-  <h2>Public Members</h2>
-  <div id="public_properties">
-    <h3>Public Properties</h3>
-    <%= render :partial => 'members_table', :locals => {:members => @symbol.public_properties, :member_type => 'property', :member_label => 'Public Property'} %>
-  </div>
+  <% if @symbol.public_members? %>
+    <% unless @symbol.properties.public.blank? %>
+      <div id="public_properties">
+        <h2>Public Properties</h2>
+        <%= render :partial => 'members_table', :locals => {:members => @symbol.properties.public, :member_type => 'property'} %>
+      </div>
+    <% end %>
 
-  <div id="inherited_public_properties">
-    <h3>Inherited Public Properties</h3>
-    <%= render :partial => 'members_table', :locals => {:members => @symbol.borrowed_public_properties, :member_type => 'property', :member_label => 'Inherited Public Property'} %>
-  </div>
+    <% unless @symbol.functions.method_types.public.blank? and @symbol.constructor.nil? %>
+    <div id="public_methods">
+      <h2>Public Methods</h2>
+      <%= render :partial => 'members_table', :locals => {:members => [@symbol.constructor] + @symbol.functions.method_types.public, :member_type => 'method'} %>
+    </div>
+    <% end %>
 
-  <div id="public_methods">
-    <h3>Public Methods</h3>
-    <%= render :partial => 'members_table', :locals => {:members => @symbol.public_methods, :member_type => 'method', :member_label => 'Public Method'} %>
-  </div>
+    <% unless @symbol.functions.event_types.public.blank? %>
+    <div id="public_events">
+      <h2>Public Events</h2>
+      <%= render :partial => 'members_table', :locals => {:members => @symbol.functions.event_types.public, :member_type => 'event'} %>
+    </div>
+    <% end %>
 
-  <div id="inherited_public_methods">
-    <h3>Inherited Public Methods</h3>
-    <%= render :partial => 'members_table', :locals => {:members => @symbol.borrowed_public_methods, :member_type => 'method', :member_label => 'Inherited Public Method'} %>
-  </div>
-
-  <div id="public_events">
-    <h3>Public Events</h3>
-    <%= render :partial => 'members_table', :locals => {:members => @symbol.public_events, :member_type => 'event', :member_label => 'Public Event'} %>
-  </div>
-
-  <div id="inherited_public_events">
-    <h3>Inherited Public Events</h3>
-    <%= render :partial => 'members_table', :locals => {:members => @symbol.borrowed_public_events, :member_type => 'event', :member_label => 'Inherited Public Event'} %>
-  </div>
+  <% else %>
+    <h2>Public Members</h2>
+    <p>This <%= @symbol.symbol_type.downcase %> has no public members.</p>
+  <% end %>
 </section>
 
 <section id="private_members">
-  <h2>Private Members</h2>
-  <div id="private_properties">
-    <h3>Private Properties</h3>
-    <%= render :partial => 'members_table', :locals => {:members => @symbol.private_properties, :member_type => 'property', :member_label => 'Private Property'} %>
-  </div>
+  <% if @symbol.private_members? %>
+    <% unless @symbol.properties.private.blank? %>
+      <div id="private_properties">
+        <h2>Private Properties</h2>
+        <%= render :partial => 'members_table', :locals => {:members => @symbol.properties.private, :member_type => 'property'} %>
+      </div>
+    <% end %>
 
-  <div id="inherited_private_properties">
-    <h3>Inherited Private Properties</h3>
-    <%= render :partial => 'members_table', :locals => {:members => @symbol.borrowed_private_properties, :member_type => 'property', :member_label => 'Inherited Private Property'} %>
-  </div>
+    <% unless @symbol.functions.method_types.private.blank? %>
+    <div id="private_methods">
+      <h2>Private Methods</h2>
+      <%= render :partial => 'members_table', :locals => {:members => @symbol.functions.method_types.private, :member_type => 'method'} %>
+    </div>
+    <% end %>
 
-  <div id="private_methods">
-    <h3>Private Methods</h3>
-    <%= render :partial => 'members_table', :locals => {:members => @symbol.private_methods, :member_type => 'method', :member_label => 'Private Method'} %>
-  </div>
+    <% unless @symbol.functions.event_types.private.blank? %>
+    <div id="private_events">
+      <h2>Private Events</h2>
+      <%= render :partial => 'members_table', :locals => {:members => @symbol.functions.event_types.private, :member_type => 'event'} %>
+    </div>
+    <% end %>
 
-  <div id="inherited_private_methods">
-    <h3>Inherited Private Methods</h3>
-    <%= render :partial => 'members_table', :locals => {:members => @symbol.borrowed_private_methods, :member_type => 'method', :member_label => 'Inherited Private Method'} %>
-  </div>
-
-  <div id="private_events">
-    <h3>Private Events</h3>
-    <%= render :partial => 'members_table', :locals => {:members => @symbol.private_events, :member_type => 'event', :member_label => 'Private Event'} %>
-  </div>
-
-  <div id="inherited_private_events">
-    <h3>Inherited Private Events</h3>
-    <%= render :partial => 'members_table', :locals => {:members => @symbol.borrowed_private_events, :member_type => 'event', :member_label => 'Inherited Private Event'} %>
-  </div>
+  <% else %>
+    <h2>Private Members</h2>
+    <p>This <%= @symbol.symbol_type.downcase %> has no private members.</p>
+  <% end %>
 </section>
+
