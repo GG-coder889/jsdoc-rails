@@ -29,4 +29,13 @@ module Jsdoc::DocumentationHelper
 
     return output.html_safe
   end
+
+  def link_to_symbol(symbol_type)
+    return nil if symbol_type.blank?
+
+    symbol = Jsdoc::Symbol.where(:alias => symbol_type).first
+    return symbol_type if symbol.nil?
+
+    return link_to(symbol_type, symbol.alias)
+  end
 end

@@ -1,0 +1,11 @@
+(<span class="method_params">
+  <% params.each do |p| %>
+    <% next if p.name.include?('.') %>
+    <% if p != params.first %>
+,
+    <% end %>
+<%= '[' if p.is_optional -%>
+<span class="param_name"><%= p.name %></span>
+:
+<span class="param_type"><%= link_to_symbol(p.param_type) || '*' %></span><%= ']' if p.is_optional -%><% end %>
+</span>)

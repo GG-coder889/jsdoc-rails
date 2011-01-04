@@ -1,95 +1,96 @@
-<header>
-  <h1><%= @symbol.symbol_type.capitalize %>: <%= link_to(@symbol.name, jsdoc_symbol_path(@symbol.alias)) %></h1>
-  <dl>
-    <dt>Module</dt>
-    <dd><%= @symbol.member_of ? link_to(@symbol.member_of, jsdoc_symbol_path(@symbol.member_of)) : 'Global' %></dd>
+<div id="symbol">
+  <header>
+    <section id="inheritance_tree">
+      <%= render :partial => 'inheritance_tree_branch', :locals => {:branches => @symbol.inheritance_tree} %>
+    </section>
 
-    <dt>Defined In</dt>
-    <dd><%= link_to(@symbol.defined_in, jsdoc_source_path(@symbol.defined_in)) %></dd>
+    <h1><%= @symbol.symbol_type.capitalize %>: <%= link_to(@symbol.name, jsdoc_symbol_path(@symbol.alias)) %></h1>
+    <dl>
+      <dt>Module</dt>
+      <dd><%= @symbol.member_of ? link_to(@symbol.member_of, jsdoc_symbol_path(@symbol.member_of)) : 'Global' %></dd>
 
-    <dt>Class</dt>
-    <dd><%= link_to(@symbol.name, jsdoc_symbol_path(@symbol.alias)) %></dd>
+      <dt>Defined In</dt>
+      <dd><%= link_to(@symbol.defined_in, jsdoc_source_path(@symbol.defined_in)) %></dd>
+
+      <dt>Class</dt>
+      <dd><%= link_to(@symbol.name, jsdoc_symbol_path(@symbol.alias)) %></dd>
 
 
-    <% if @symbol.subclasses.size > 0 %>
-      <dt>Subclasses</dt>
-      <% for subclass in @symbol.subclasses %>
-        <dd><%= link_to(subclass.alias, jsdoc_symbol_path(subclass.alias)) %></dd>
+      <% if @symbol.subclasses.size > 0 %>
+        <dt>Subclasses</dt>
+        <% for subclass in @symbol.subclasses %>
+          <dd><%= link_to(subclass.alias, jsdoc_symbol_path(subclass.alias)) %></dd>
+        <% end %>
+        
       <% end %>
-      
-    <% end %>
 
-    <% if @symbol.extends.present? %>
-      <dt>Extends</dt>
-      <dd><%= link_to(@symbol.extends, jsdoc_symbol_path(@symbol.extends)) %></dd>
-    <% end %>
+      <% if @symbol.extends.present? %>
+        <dt>Extends</dt>
+        <dd><%= link_to(@symbol.extends, jsdoc_symbol_path(@symbol.extends)) %></dd>
+      <% end %>
 
-    <% if @symbol.requires.size > 0 %>
-      <dt>Requires</dt>
-      <dd><%= @symbol.requires.join(', ') %></dd>
-    <% end %>
-  </dl>
-</header>
+      <% if @symbol.requires.size > 0 %>
+        <dt>Requires</dt>
+        <dd><%= @symbol.requires.join(', ') %></dd>
+      <% end %>
+    </dl>
+  </header>
 
-<section id="inheritance_tree">
-  <%= render :partial => 'inheritance_tree_branch', :locals => {:branches => @symbol.inheritance_tree} %>
-</section>
+  <section id="public_members">
+    <% if @symbol.public_members? %>
+      <% unless @symbol.properties.public.blank? %>
+        <div id="public_properties">
+          <h2>Public Properties</h2>
+          <%= render :partial => 'members_table', :locals => {:members => @symbol.properties.public, :member_type => 'property'} %>
+        </div>
+      <% end %>
 
-<section id="public_members">
-  <% if @symbol.public_members? %>
-    <% unless @symbol.properties.public.blank? %>
-      <div id="public_properties">
-        <h2>Public Properties</h2>
-        <%= render :partial => 'members_table', :locals => {:members => @symbol.properties.public, :member_type => 'property'} %>
+      <% unless @symbol.functions.method_types.public.blank? and @symbol.constructor.nil? %>
+      <div id="public_methods">
+        <h2>Public Methods</h2>
+        <%= render :partial => 'members_table', :locals => {:members => [@symbol.constructor] + @symbol.functions.method_types.public, :member_type => 'method'} %>
       </div>
-    <% end %>
+      <% end %>
 
-    <% unless @symbol.functions.method_types.public.blank? and @symbol.constructor.nil? %>
-    <div id="public_methods">
-      <h2>Public Methods</h2>
-      <%= render :partial => 'members_table', :locals => {:members => [@symbol.constructor] + @symbol.functions.method_types.public, :member_type => 'method'} %>
-    </div>
-    <% end %>
-
-    <% unless @symbol.functions.event_types.public.blank? %>
-    <div id="public_events">
-      <h2>Public Events</h2>
-      <%= render :partial => 'members_table', :locals => {:members => @symbol.functions.event_types.public, :member_type => 'event'} %>
-    </div>
-    <% end %>
-
-  <% else %>
-    <h2>Public Members</h2>
-    <p>This <%= @symbol.symbol_type.downcase %> has no public members.</p>
-  <% end %>
-</section>
-
-<section id="private_members">
-  <% if @symbol.private_members? %>
-    <% unless @symbol.properties.private.blank? %>
-      <div id="private_properties">
-        <h2>Private Properties</h2>
-        <%= render :partial => 'members_table', :locals => {:members => @symbol.properties.private, :member_type => 'property'} %>
+      <% unless @symbol.functions.event_types.public.blank? %>
+      <div id="public_events">
+        <h2>Public Events</h2>
+        <%= render :partial => 'members_table', :locals => {:members => @symbol.functions.event_types.public, :member_type => 'event'} %>
       </div>
+      <% end %>
+
+    <% else %>
+      <h2>Public Members</h2>
+      <p>This <%= @symbol.symbol_type.downcase %> has no public members.</p>
     <% end %>
+  </section>
 
-    <% unless @symbol.functions.method_types.private.blank? %>
-    <div id="private_methods">
-      <h2>Private Methods</h2>
-      <%= render :partial => 'members_table', :locals => {:members => @symbol.functions.method_types.private, :member_type => 'method'} %>
-    </div>
+  <section id="private_members">
+    <% if @symbol.private_members? %>
+      <% unless @symbol.properties.private.blank? %>
+        <div id="private_properties">
+          <h2>Private Properties</h2>
+          <%= render :partial => 'members_table', :locals => {:members => @symbol.properties.private, :member_type => 'property'} %>
+        </div>
+      <% end %>
+
+      <% unless @symbol.functions.method_types.private.blank? %>
+      <div id="private_methods">
+        <h2>Private Methods</h2>
+        <%= render :partial => 'members_table', :locals => {:members => @symbol.functions.method_types.private, :member_type => 'method'} %>
+      </div>
+      <% end %>
+
+      <% unless @symbol.functions.event_types.private.blank? %>
+      <div id="private_events">
+        <h2>Private Events</h2>
+        <%= render :partial => 'members_table', :locals => {:members => @symbol.functions.event_types.private, :member_type => 'event'} %>
+      </div>
+      <% end %>
+
+    <% else %>
+      <h2>Private Members</h2>
+      <p>This <%= @symbol.symbol_type.downcase %> has no private members.</p>
     <% end %>
-
-    <% unless @symbol.functions.event_types.private.blank? %>
-    <div id="private_events">
-      <h2>Private Events</h2>
-      <%= render :partial => 'members_table', :locals => {:members => @symbol.functions.event_types.private, :member_type => 'event'} %>
-    </div>
-    <% end %>
-
-  <% else %>
-    <h2>Private Members</h2>
-    <p>This <%= @symbol.symbol_type.downcase %> has no private members.</p>
-  <% end %>
-</section>
-
+  </section>
+</div>

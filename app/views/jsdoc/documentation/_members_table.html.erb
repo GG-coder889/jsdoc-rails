@@ -1,15 +1,23 @@
 <% if members.size > 0 %>
-  <table>
+  <table class="members">
     <thead>
       <tr>
         <th><%= member_type.capitalize %></th>
-        <th>Defined By</th>
+        <th class="defined_by">Defined By</th>
       </tr>
     </thead>
     <tbody>
-      <% for m in members %>
-        <tr id="<%= member_type.underscore %>_<%= m.name %>" class="<%= m.symbol == @symbol ? 'own' : 'borrowed' %>_<%= member_type.underscore %>">
-          <td><%= m.name %></td>
+      <% for m in members.sort{|x,y| x.name <=> y.name} %>
+        <tr id="<%= member_type.underscore %>_<%= m.name %>" class="<%= m.symbol == @symbol ? 'own' : 'borrowed' %> <%= member_type.underscore %>">
+          <td>
+            <% if m.is_a?(Jsdoc::Property) %>
+              <%= link_to(m.name, '#property_' + m.name, :class => 'member_link') %>
+            <% elsif m.is_a?(Jsdoc::Function) %>
+              <%= link_to(m.name, '#method_' + m.name, :class => 'member_link') %> <%= render :partial => 'param_list', :locals => {:params => m.params} %> : <span class="return_type"><%= m.returns.blank? ? 'void' : link_to_symbol(m.returns.first.return_type) %></span>
+            <% else %>
+              <%= m.name %>
+            <% end %>
+          </td>
           <td><%= m.symbol == @symbol ? @symbol.name : link_to(m.symbol.name, jsdoc_symbol_path(m.symbol.alias) + "##{member_type.underscore}_#{m.name}") %></td>
         </tr>
       <% end %>

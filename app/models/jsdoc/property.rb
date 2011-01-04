@@ -8,6 +8,6 @@ module Jsdoc
     scope :private, where(:is_private => true)
     scope :public, where(:is_private => false)
 
-    scope :for_symbol, lambda { |s| joins(:borrowed_to).where('symbol_id = :symbol_id OR jsdoc_borrowed_properties.borrowed_to_id = :symbol_id', :symbol_id => s.id) }
+    scope :for_symbol, lambda { |s| includes(:borrowed_to).where('symbol_id = :symbol_id OR jsdoc_borrowed_properties.borrowed_to_id = :symbol_id', :symbol_id => s.id) }
   end
 end
