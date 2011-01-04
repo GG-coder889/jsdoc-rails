@@ -91,8 +91,14 @@ body > aside li > a::before {
     content: '';
     display: block;
     float: left;
-    width: 36px;
+    width: 24px;
     height: 1.75em;
+    background-position: 3px top;
+    background-repeat: no-repeat;
+    background-image: url(../../images/jsdoc/icons/docs.gif);
+}
+body > aside li li > a::before {
+    width: 36px;
     background-position: 0px top, 18px center;
     background-repeat: no-repeat;
     background-image: url(../../images/jsdoc/icons/elbow.gif), url(../../images/jsdoc/icons/docs.gif);
@@ -117,27 +123,30 @@ body > aside li a:hover {
     border: 1px solid #eee;
 }
 body > aside li li a {
-    padding-left: 20px;
+    padding-left: 3px;
 }
 body > aside li li li a {
-    padding-left: 40px;
+    padding-left: 20px;
 }
 body > aside li li li li a {
-    padding-left: 60px;
+    padding-left: 40px;
 }
 body > aside li li li li li a {
-    padding-left: 80px;
+    padding-left: 60px;
 }
 body > aside li li li li li li a {
-    padding-left: 100px;
+    padding-left: 80px;
 }
 body > aside li li li li li li li a {
-    padding-left: 120px;
+    padding-left: 100px;
 }
 body > aside li li li li li li li li a {
-    padding-left: 140px;
+    padding-left: 120px;
 }
 body > aside li li li li li li li li li a {
+    padding-left: 140px;
+}
+body > aside li li li li li li li li li li a {
     padding-left: 160px;
 }
 
