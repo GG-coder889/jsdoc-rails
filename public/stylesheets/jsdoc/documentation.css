@@ -245,7 +245,8 @@ body > aside li li li li li li li li li li a {
     padding: 10px;
 }
 
-#symbol {
+#symbol,
+#source {
     position: absolute;
     top: 28px;
     left: 0;
@@ -390,4 +391,10 @@ table.members .description {
 }
 .toolbar li a[href$="_events"]::before {
     background-image: url(../../images/jsdoc/icons/event.gif);
+}
+
+#source pre {
+    margin: 0;
+    font-family: "Lucida Console", "Courier New", Courier, monospace;
+    font-size: 1.1em;
 }

@@ -45,10 +45,24 @@ First write the data out:
 
   rake jsdoc:output SRC=/path/to/your/javascript/code OUTPUT=data/mydocs.rb
 
-The copy it to whichever machine you want the data loaded onto and load it in
-with:
+Now copy the file to the machine you want to load the data onto and import it with:
 
   rake jsdoc:load SRC=data/mydocs.rb
+
+== Configuration
+
+There are 2 configuration options you can set. You specify them in an initializer.
+i.e. A file named config/initializers/jsdoc.rb
+
+The first option is to specify the URL path the documentation will live at
+
+  Jsdoc::Engine.mount_point = '/documentation'
+
+And the second option is the file-system path where your javascript source code
+is. This is relative to the Rails 'public' folder or an absolute path. This is
+only used to rendering the source code in the documentation.
+
+  Jsdoc::Engine.source_path = 'jsdoc/source'
 
 == Creating views
 
