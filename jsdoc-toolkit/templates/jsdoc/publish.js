@@ -1,8 +1,11 @@
 /** Called automatically by JsDoc Toolkit. */
 function publish(symbolSet) {
 	publish.conf = {  // trailing slash expected for dirs
+		ext:         ".html",
 		outDir:      JSDOC.opt.d || SYS.pwd+"../out/jsdoc/",
-		templatesDir: JSDOC.opt.t || SYS.pwd+"../templates/jsdoc/"
+		templatesDir: JSDOC.opt.t || SYS.pwd+"../templates/jsdoc/",
+		symbolsDir:  "symbols/",
+		srcDir:      "symbols/src/"
 	};
 	
 	// is source output is suppressed, just display the links to the source file
@@ -12,12 +15,16 @@ function publish(symbolSet) {
 		}
 	}
 	
+	// create the folders and subfolders to hold the output
+	IO.mkPath((publish.conf.outDir+"symbols/src").split("/"));
+		
 	// used to allow Link to check the details of things being linked to
 	Link.symbolSet = symbolSet;
 
 	// create the required templates
 	try {
-		var classTemplate = new JSDOC.JsPlate(publish.conf.templatesDir+"seeds.tmpl");
+		var classTemplate = new JSDOC.JsPlate(publish.conf.templatesDir+"class.tmpl");
+		var classesTemplate = new JSDOC.JsPlate(publish.conf.templatesDir+"allclasses.tmpl");
 	}
 	catch(e) {
 		print("Couldn't create the required templates: "+e);
@@ -32,6 +39,14 @@ function publish(symbolSet) {
 	// get an array version of the symbolset, useful for filtering
 	var symbols = symbolSet.toArray();
 	
+	// create the hilited source code files
+	var files = JSDOC.opt.srcFiles;
+ 	for (var i = 0, l = files.length; i < l; i++) {
+ 		var file = files[i];
+ 		var srcDir = publish.conf.outDir + "symbols/src/";
+		makeSrcFile(file, srcDir);
+ 	}
+ 	
  	// get a list of all the classes in the symbolset
  	var classes = symbols.filter(isaClass).sort(makeSortby("alias"));
 	
@@ -50,47 +65,63 @@ function publish(symbolSet) {
 				lcAlias+"_"+filemapCounts[lcAlias] : lcAlias;
 		}
 	}
-
-
-    classes.map(function($) {
-        $.tag = $.alias.replace(/[\.#]+/g, '__');
-        $.symbolType = '';
-        if ($.isNamespace) {
-            if ($.is('FUNCTION')) {
-                $.symbolType = "function";
-            }
-            $.symbolType = "namespace";
-        } else {
-            $.symbolType = "class";
-        }
-
-        $.extendsList = $.augments.sort().join(", ");
-
-		$.events = $.getEvents();   // 1 order matters
-		$.methods = $.getMethods(); // 2
-    });
+	
+	// create a class index, displayed in the left-hand column of every class page
+	Link.base = "../";
+ 	publish.classesIndex = classesTemplate.process(classes); // kept in memory
 	
 	// create each of the class pages
-    var output = "";
-    output = classTemplate.process(classes);
-    
-    IO.saveFile(publish.conf.outDir, 'seeds.rb', output);
-
-	/*
-    for (var i = 0, l = classes.length; i < l; i++) {
-        var symbol = classes[i];
-        
-        symbol.events = symbol.getEvents();   // 1 order matters
-        symbol.methods = symbol.getMethods(); // 2
-        
-        Link.currentSymbol= symbol;
-        var output = "";
-        output = classTemplate.process(symbol);
-        
-        IO.saveFile(publish.conf.outDir+"symbols/", ((JSDOC.opt.u)? Link.filemap[symbol.alias] : symbol.alias) + publish.conf.ext, output);
-    }
-	*/
+	for (var i = 0, l = classes.length; i < l; i++) {
+		var symbol = classes[i];
+		
+		symbol.events = symbol.getEvents();   // 1 order matters
+		symbol.methods = symbol.getMethods(); // 2
+		
+		Link.currentSymbol= symbol;
+		var output = "";
+		output = classTemplate.process(symbol);
+		
+		IO.saveFile(publish.conf.outDir+"symbols/", ((JSDOC.opt.u)? Link.filemap[symbol.alias] : symbol.alias) + publish.conf.ext, output);
+	}
 	
+	// regenerate the index with different relative links, used in the index pages
+	Link.base = "";
+	publish.classesIndex = classesTemplate.process(classes);
+	
+	// create the class index page
+	try {
+		var classesindexTemplate = new JSDOC.JsPlate(publish.conf.templatesDir+"index.tmpl");
+	}
+	catch(e) { print(e.message); quit(); }
+	
+	var classesIndex = classesindexTemplate.process(classes);
+	IO.saveFile(publish.conf.outDir, "index"+publish.conf.ext, classesIndex);
+	classesindexTemplate = classesIndex = classes = null;
+	
+	// create the file index page
+	try {
+		var fileindexTemplate = new JSDOC.JsPlate(publish.conf.templatesDir+"allfiles.tmpl");
+	}
+	catch(e) { print(e.message); quit(); }
+	
+	var documentedFiles = symbols.filter(isaFile); // files that have file-level docs
+	var allFiles = []; // not all files have file-level docs, but we need to list every one
+	
+	for (var i = 0; i < files.length; i++) {
+		allFiles.push(new JSDOC.Symbol(files[i], [], "FILE", new JSDOC.DocComment("/** */")));
+	}
+	
+	for (var i = 0; i < documentedFiles.length; i++) {
+		var offset = files.indexOf(documentedFiles[i].alias);
+		allFiles[offset] = documentedFiles[i];
+	}
+		
+	allFiles = allFiles.sort(makeSortby("name"));
+
+	// output the file index page
+	var filesIndex = fileindexTemplate.process(allFiles);
+	IO.saveFile(publish.conf.outDir, "files"+publish.conf.ext, filesIndex);
+	fileindexTemplate = filesIndex = files = null;
 }
 
 
@@ -167,74 +198,4 @@ function resolveLinks(str, from) {
 	);
 	
 	return str;
-}
-
-function indentString(str, indent) {
-    var indentStr = '';
-    for (var i=0; i<indent; i++) {
-        indentStr += ' ';
-    }
-
-    return indentStr + str.replace(/\n/g, "\n" + indentStr);
-}
-
-function toYAML(obj, indent) {
-    indent = indent || 0;
-
-    var output = '';
-    for (var key in obj) {
-        var val = obj[key];
-
-        output += key + ": "
-
-        switch (typeof(val)) {
-        case 'object':
-            output += "\n"
-            output += toYAML(val, indent +2);
-            break;
-        case 'string':
-            if (val != '') {
-                output += '"' + val.replace(/"/g, '\\"') + '"';
-            }
-            break;
-
-        case 'undefined':
-            break;
-        default:
-            output += val.toString();
-            break;
-        }
-        output += "\n";
-    }
-
-
-    output = indentString(output, indent);
-
-    return output;
-}
-function toRuby(val) {
-    var output = '';
-
-    switch (typeof(val)) {
-    case 'object':
-        output += "\n"
-        output += toYAML(val, indent +2);
-        break;
-    case 'string':
-        if (val != '') {
-            output += '"' + val.replace(/"/g, '\\"') + '"';
-        } else {
-            output += 'nil';
-        }
-        break;
-
-    case 'undefined':
-        output += 'nil';
-        break;
-    default:
-        output += val.toString();
-        break;
-    }
-
-    return output;
 }

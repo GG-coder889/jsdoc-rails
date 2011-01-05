@@ -26,23 +26,29 @@ Migrate your database
 
 == Loading the data
 
-You will need version 2.x of the jsdoc-toolkit installed somewhere first. You can grab this from:
-http://code.google.com/p/jsdoc-toolkit/downloads/list
+The data is generated using jsdoc-toolkit 2.4.0. This is included and used
+automatically. This utility does require java to be in your system path to
+function properly.
 
-The next step will write a file to db/seed.rb, if you don't want to overwrite
-an existing seed file make sure you do a backup.
+To import the documentation directly into your database simply run:
 
-Run the rake task to generate the data:
-
-  rake jsdoc:seed SRC=/path/to/your/javascript/code JSDOC_HOME=/path/to/jsdoc-toolkit
-
-When that's finished you can load the seed data like so
-
-  rake db:seed
+  rake jsdoc:import SRC=/path/to/your/javascript/code
 
 If everything went to plan you can fire up the rails console and see a class
 
   Jsdoc::Symbol.where(:symbol_type => 'class').first
+
+If you wish to generate the data on one machine for use on another you can
+split this into two operations.
+
+First write the data out:
+
+  rake jsdoc:output SRC=/path/to/your/javascript/code OUTPUT=data/mydocs.rb
+
+The copy it to whichever machine you want the data loaded onto and load it in
+with:
+
+  rake jsdoc:load SRC=data/mydocs.rb
 
 == Creating views
 
