@@ -1,9 +1,9 @@
 <div class="toolbar">
   <form>
-    <input name="find_class" type="search" placeholder="Find a Class" autosave="find_class" results="5">
+    <input id="find_class" name="find_class" type="search" placeholder="Find a Class" autosave="find_class" results="5">
   </form>
 </div>
-<nav>
+<nav id="class_tree">
   <ul class="tree">
     <li<%= raw(' class="current"') if params[:action] == 'index' %>><%= link_to('API Documentation', root_path) %><ul>
         <%= render :partial => 'layouts/jsdoc/symbol_tree_branch', :collection => Jsdoc::Symbol.where(:member_of => nil), :as => :symbol %>
