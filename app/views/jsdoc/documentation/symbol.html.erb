@@ -1,8 +1,8 @@
-<nav class="toolbar">
+<% content_for(:toolbar) do %>
   <ul>
     <li><%= link_to('Public Properties', '#public_properties') %></li><li><%= link_to('Public Methods', '#public_methods') %></li><li><%= link_to('Public Events', '#public_events') %></li><li><%= link_to('Private Properties', '#private_properties') %></li><li><%= link_to('Private Methods', '#private_methods') %></li><li><%= link_to('Private Events', '#private_events') %></li>
   </ul>
-</nav>
+<% end %>
 
 <div id="symbol">
   <header>

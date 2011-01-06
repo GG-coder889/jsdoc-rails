@@ -157,7 +157,7 @@ body > aside li li li li li li li li li li a {
 }
 
 
-#content {
+#wrapper {
     position: absolute;
     top: 60px;
     bottom: 5px;
@@ -167,7 +167,7 @@ body > aside li li li li li li li li li li a {
     background: #fff;
     border: 1px solid #D0D0D0;
 }
-#content h1 {
+#wrapper h1 {
     margin-top: 0;
 }
 
@@ -241,20 +241,19 @@ body > aside li li li li li li li li li li a {
     );
 }
 
-#welcome {
+#content {
     padding: 10px;
 }
 
-#symbol,
-#source {
+.has_toolbar #content {
     position: absolute;
     top: 28px;
     left: 0;
     right: 0;
     bottom: 0;
     overflow: auto;
-    padding: 10px;
 }
+
 #symbol h1 {
     font-size: 1.5em;
 }

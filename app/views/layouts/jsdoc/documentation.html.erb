@@ -18,8 +18,15 @@
         <%= render :partial => 'layouts/jsdoc/aside_symbol_list' %>
       <% end %>
     </aside>
-    <div id="content">
-      <%= yield %>
+    <div id="wrapper"<% if content_for?(:toolbar) %> class="has_toolbar"<% end %>>
+      <% if content_for?(:toolbar) %>
+        <nav class="toolbar">
+          <%= yield :toolbar %>
+        </nav>
+      <% end %>
+      <div id="content">
+        <%= yield %>
+      </div>
     </div>
   </body>
 </html>
