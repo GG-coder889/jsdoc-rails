@@ -1,5 +1,7 @@
 module Jsdoc
   class DocumentationController < ApplicationController
+    layout 'jsdoc/documentation_wrapper'
+
     def index
     end
 

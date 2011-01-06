@@ -72,7 +72,22 @@ At the very least you'll want to customise the welcome page. To do this you
 just need to create a view in your project named
 app/views/jsdoc/documentation/index.html.erb
 
-=== Layout
+=== Header
+
+The header lives in a partial at app/views/layouts/jsdoc/_header.html.erb.
+Replace it with anything you like.
+
+=== Adding Stylesheets
+
+The easiest way to add a stylesheet is to create a layout at
+app/views/layouts/jsdoc/documentation_wrapper.html.erb and fill it with:
+
+  <% content_for(:head) do %>
+    <%= stylesheet_link_tag 'my_styles.css' %>
+  <% end %>
+  <%= render :file => 'layouts/jsdoc/documentation' %>
+
+=== Everything else
 
 If you wish to customise the whole layout then your best option is to peek at
 the views in the plugin and override anything you need to. They all live in 

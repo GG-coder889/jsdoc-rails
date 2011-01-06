@@ -6,10 +6,15 @@
     <%= stylesheet_link_tag 'jsdoc/documentation' %>
     <%= javascript_include_tag 'https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js' %>
     <%= javascript_include_tag 'jsdoc/jsdoc.js' %>
+    <%= yield :head %>
   </head>
   <body>
     <header>
-      <h1>API Documentation</h1>
+      <% if content_for?(:header) %>
+        <%= yield :header %>
+      <% else %>
+        <%= render :partial => 'layouts/jsdoc/header' %>
+      <% end %>
     </header>
     <aside>
       <% if content_for?(:aside) %>
