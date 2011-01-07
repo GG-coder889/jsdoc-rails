@@ -61,7 +61,7 @@
       <% unless @symbol.functions.method_types.public.blank? and @symbol.constructor.nil? %>
       <div id="public_methods">
         <h2>Public Methods</h2>
-        <%= render :partial => 'members_table', :locals => {:members => [@symbol.constructor] + @symbol.functions.method_types.public, :member_type => 'method'} %>
+        <%= render :partial => 'members_table', :locals => {:members => ([@symbol.constructor] + @symbol.functions.method_types.public).compact, :member_type => 'method'} %>
       </div>
       <% end %>
 

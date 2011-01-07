@@ -39,7 +39,7 @@ sees       = {}
     'deprecated_description' => {+ toRuby(symbol.deprecated) +}
   )
 
-  <if test="!symbol.isBuiltin() && (symbol.isNamespace || symbol.is('CONSTRUCTOR'))">
+  <if test="!symbol.isBuiltin() && symbol.is('CONSTRUCTOR')">
     # Constructor for {+ symbol.alias +}
     methods['{+ symbol.alias +}'] = Jsdoc::Function.create(
       'symbol_id'     => classes['{+ symbol.alias +}'].id,

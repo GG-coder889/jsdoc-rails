@@ -180,11 +180,8 @@ function toYAML(obj, indent) {
 function toRuby(val) {
     var output = '';
 
+
     switch (typeof(val)) {
-    case 'object':
-        output += "\n"
-        output += toYAML(val, indent +2);
-        break;
     case 'string':
         if (val != '') {
             output += '"' + val.replace(/"/g, '\\"') + '"';
