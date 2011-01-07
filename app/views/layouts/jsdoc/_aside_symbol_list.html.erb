@@ -6,7 +6,7 @@
 <nav id="class_tree">
   <ul class="tree">
     <li<%= raw(' class="current"') if params[:action] == 'index' %>><%= link_to('API Documentation', jsdoc_root_path) %><ul>
-        <%= render :partial => 'layouts/jsdoc/symbol_tree_branch', :collection => Jsdoc::Symbol.where(:member_of => nil), :as => :symbol %>
+        <%= render :partial => 'layouts/jsdoc/symbol_tree_branch', :collection => @root_symbols, :as => :symbol %>
     </ul></li> 
   </ul>
 </nav>

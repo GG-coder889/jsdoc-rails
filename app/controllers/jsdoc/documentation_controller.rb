@@ -2,6 +2,8 @@ module Jsdoc
   class DocumentationController < ApplicationController
     layout 'jsdoc/documentation_wrapper'
 
+    before_filter :get_root_symbols, :except => [:raw_source]
+
     def index
     end
 
@@ -33,6 +35,14 @@ module Jsdoc
         raise "Invalid path" unless file_path.start_with?(source_root)
 
         return File.open(file_path).read
+      end
+
+      def get_root_symbols
+        @root_symbols = Jsdoc::Symbol.where(:member_of => nil)
+
+        if Jsdoc::Engine.no_global
+          @root_symbols = @root_symbols.where('name != ?', '_global_')
+        end
       end
   end
 end

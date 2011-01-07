@@ -12,6 +12,8 @@ module Jsdoc
     cattr_accessor :mount_point
     @@source_path = 'jsdoc/source'
     cattr_accessor :source_path
+    @@no_global = true
+    cattr_accessor :no_global
 
     # We can add all of the public assets from our engine and make them
     # available to use.  This allows us to use javascripts, images, stylesheets
