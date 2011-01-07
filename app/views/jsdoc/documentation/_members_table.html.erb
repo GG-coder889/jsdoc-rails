@@ -10,6 +10,7 @@
       <% for m in members.sort{|x,y| x.name <=> y.name} %>
         <tr id="<%= member_type.underscore %>_<%= m.name %>" class="<%= m.symbol == @symbol ? 'own' : 'borrowed' %> <%= member_type.underscore %>">
           <td>
+            <% if m.is_static %><span class="static">&lt;static&gt;</span><% end %>
             <% if m.is_a?(Jsdoc::Property) %>
               <%= link_to(m.name, '#property_' + m.name, :class => 'member_link') %>
             <% elsif m.is_a?(Jsdoc::Function) %>

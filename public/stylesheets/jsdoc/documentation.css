@@ -369,6 +369,11 @@ table.members .description {
     margin-top: 5px;
 }
 
+table.members .static {
+    color: #aaa;
+    font-style: italic;
+}
+
 
 .toolbar li a[href$="_properties"]::before,
 .toolbar li a[href$="_methods"]::before,
