@@ -15,8 +15,10 @@
       <dt>Module</dt>
       <dd><%= @symbol.member_of ? link_to(@symbol.member_of, jsdoc_symbol_path(@symbol.member_of)) : 'Global' %></dd>
 
-      <dt>Defined In</dt>
-      <dd><%= link_to(@symbol.defined_in, jsdoc_source_path(@symbol.defined_in)) %></dd>
+      <% if @symbol.defined_in.present? %>
+        <dt>Defined In</dt>
+        <dd><%= link_to(@symbol.defined_in, jsdoc_source_path(@symbol.defined_in)) %></dd>
+      <% end %>
 
       <dt><%= @symbol.symbol_type.capitalize %></dt>
       <dd><%= link_to(@symbol.name, jsdoc_symbol_path(@symbol.alias)) %></dd>
