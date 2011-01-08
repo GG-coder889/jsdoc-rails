@@ -7,6 +7,15 @@ module Jsdoc::DocumentationHelper
     return Jsdoc::Symbol.namespaces
   end
 
+  def anchorName(member)
+    anchor = ''
+
+    anchor += 'static_' if member.is_static
+    anchor += 'method_' if member.is_a?(Jsdoc::Function) and member.symbol.present?
+    anchor += 'property_' if member.is_a?(Jsdoc::Property)
+    anchor += member.name
+  end
+
   def full_class_list
     output = '<ul>'
     Jsdoc::Symbol.where(:member_of => nil).each do |child|

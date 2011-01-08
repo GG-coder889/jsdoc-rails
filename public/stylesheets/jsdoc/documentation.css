@@ -280,8 +280,13 @@ body > aside li li li li li li li li li li a {
     float: left;
     margin: 0;
 }
-#symbol > header dd + dd::before {
-    content: ', ';
+#symbol > header dd.subclasses::after {
+    content: ',';
+    padding-right: .5em;
+}
+#symbol > header dd.subclasses.last::after {
+    content: '';
+    padding-right: 0;
 }
 #symbol > header dt::after {
     content: ':';
