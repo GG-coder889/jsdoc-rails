@@ -369,7 +369,7 @@ table.members .description {
     margin-top: 5px;
 }
 
-table.members .static {
+table.members .flag {
     color: #aaa;
     font-style: italic;
 }
