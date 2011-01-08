@@ -14,9 +14,9 @@ Then run
 
   bundle install
 
-Now you need to generate the migrations to create the JSDoc tables. They are
-all prefixed with 'jsdoc_' so shouldn't conflict with anything you already
-have.
+Next you need to copy the static assets (images, javascript and stylesheet) and
+also generate the migrations to create the JSDoc tables. They are all prefixed
+with 'jsdoc_' so shouldn't conflict with anything you already have.
 
   rails g jsdoc
 

@@ -32,15 +32,40 @@ class JsdocGenerator < Rails::Generators::Base
     end
   end
 
-  private
-  def optional_migration_template(*args)
-    migration_template(*args)
-  rescue Exception => e
-    if e.message.include?('Another migration is already named')
-      puts "Skipping existing migration: #{args[1]}"
-      return
-    else
-      raise e
+  def copy_static_assets
+    assets = ['public/images/jsdoc/', 'public/stylesheets/jsdoc/', 'public/javascripts/jsdoc/'];
+
+    assets.each do |a|
+      asset_dir = File.join(File.dirname(__FILE__), '../../../', a)
+      copy_dir(asset_dir, a)
     end
   end
+
+  private
+
+    def copy_dir(src, dst)
+      Dir.foreach(src) do |f|
+        next if %w(. ..).include?(f)
+        src_file = File.join(src, f)
+        dst_file = File.join(dst, f)
+
+        if File.directory?(src_file)
+          copy_dir(src_file, dst_file)
+        else
+          copy_file(src_file, dst_file)
+        end
+
+      end
+    end
+
+    def optional_migration_template(*args)
+      migration_template(*args)
+    rescue Exception => e
+      if e.message.include?('Another migration is already named')
+        puts "Skipping existing migration: #{args[1]}"
+        return
+      else
+        raise e
+      end
+    end
 end
