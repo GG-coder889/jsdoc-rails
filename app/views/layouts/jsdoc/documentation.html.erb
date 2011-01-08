@@ -33,5 +33,12 @@
         <%= yield %>
       </div>
     </div>
+    <footer>
+      <% if content_for?(:footer) %>
+        <%= yield :footer %>
+      <% else %>
+        <p><%= link_to('jsdoc-rails', 'https://github.com/RyanWilliams/jsdoc-rails') %> v<%= Jsdoc::VERSION %></p>
+      <% end %>
+    </footer>
   </body>
 </html>

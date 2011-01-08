@@ -35,5 +35,18 @@ jQuery(document).ready(function($) {
   findClassInput.bind('keyup change search paste cut copy dragend', function(evt) {
     filterClasses(evt.target.value);
   });
+
+  $(window).scroll(function() {
+    $aside = $('body > aside');
+    if (!$aside[0].originalTop) {
+      $aside[0].originalTop = parseInt($aside.css('top'), 10)
+    }
+  
+    var ot = $aside[0].originalTop;
+    var newTop = Math.max(ot - $(window).scrollTop(), 20);
+  
+    $('body > aside').css('top', newTop);
+  });
 });
+
 
