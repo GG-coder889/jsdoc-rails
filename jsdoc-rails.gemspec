@@ -13,8 +13,8 @@ Gem::Specification.new do |s|
   s.version     = Jsdoc::VERSION
   s.platform    = Gem::Platform::RUBY
 
-  s.summary     = "Rails 3 plugin to support JSDoc documentation"
-  s.description = "This plugin includes a jsdoc-toolkit template and Rake task which generates a script to load all your documentation into the database. This allows you to create dynamic and easily searchable documentation."
+  s.summary     = "Rails 3 plugin to include JSDoc documentation on your site"
+  s.description = "Uses an included copy of jsdoc-toolkit to parse your JavaScript documentation and then load it into your site's database. This means you can have far more dynamic documentation as you no longer need to rely on static HTML."
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/* | grep -v dummy`.split("\n")
