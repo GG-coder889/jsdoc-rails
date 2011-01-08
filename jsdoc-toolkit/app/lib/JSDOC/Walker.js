@@ -62,6 +62,41 @@ JSDOC.Walker.prototype.step = function() {
 			JSDOC.Parser.rename = (JSDOC.Parser.rename || {});	
 			JSDOC.Parser.rename[n1] = n2
 		}
+
+		// Add support for @getter and @setter - A little to tricky to do in a plugin.
+		if (doc.getTag("getter").length > 0) {
+			var tag = doc.getTag("getter")[0];
+
+			doc.tags.push(new JSDOC.DocTag('field'));
+
+			// If symbol already exists then just update permissions on it
+			var prevSymbol = JSDOC.Parser.symbols.getSymbol(this.namescope.last().alias + tag.desc);
+			if (prevSymbol) {
+				prevSymbol.isReadable = true;
+				doc.tags.push(new JSDOC.DocTag('ignore'));
+			} else {
+				if (!this._getterSetterData) this._getterSetterData = {};
+				this._getterSetterData.readable = true;
+				this._getterSetterData.name = tag.desc;
+			}
+
+		}
+		if (doc.getTag("setter").length > 0) {
+			var tag = doc.getTag("setter")[0];
+
+			doc.tags.push(new JSDOC.DocTag('field'));
+
+			// If symbol already exists then just update permissions on it
+			var prevSymbol = JSDOC.Parser.symbols.getSymbol(this.namescope.last().alias + tag.desc);
+			if (prevSymbol) {
+				prevSymbol.isWritable = true
+				doc.tags.push(new JSDOC.DocTag('ignore'));
+			} else {
+				if (!this._getterSetterData) this._getterSetterData = {};
+				this._getterSetterData.writable = true;
+				this._getterSetterData.name = tag.desc;
+			}
+		}
 		
 		if (doc.getTag("lends").length > 0) {
 			var lends = doc.getTag("lends")[0];
@@ -126,6 +161,16 @@ JSDOC.Walker.prototype.step = function() {
 			var name = this.token.data;
 			var doc = null; if (this.lastDoc) doc = this.lastDoc;
 			var params = [];
+			var readable = true;
+			var writable = true;
+
+			// Update setter/getter values
+			if (this._getterSetterData) {
+				name = this._getterSetterData.name;
+				readable = !!this._getterSetterData.readable;
+				writable = !!this._getterSetterData.writable;
+				delete this._getterSetterData;
+			}
 		
 			// it's inside an anonymous object
 			if (this.ts.look(1).is("COLON") && this.ts.look(-1).is("LEFT_CURLY") && !(this.ts.look(-2).is("JSDOC") || this.namescope.last().comment.getTag("lends").length || this.ts.look(-2).is("ASSIGN") || this.ts.look(-2).is("COLON"))) {
@@ -427,6 +472,11 @@ JSDOC.Walker.prototype.step = function() {
 				if (matching) matching.popNamescope = name;
 				else LOG.warn("Mismatched } character. Can't parse code in file " + symbol.srcFile + ".");
 			}
+		}
+
+		if (symbol) {
+			symbol.isReadable = readable;
+			symbol.isWritable = writable;
 		}
 	}
 	return true;

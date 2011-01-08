@@ -17,6 +17,8 @@ class JsdocCreatePropertiesTable < ActiveRecord::Migration
       t.boolean :is_static
       t.boolean :is_constant
       t.boolean :is_deprecated
+      t.boolean :is_readable
+      t.boolean :is_writable
       t.text :deprecated_description
 
       t.timestamps
