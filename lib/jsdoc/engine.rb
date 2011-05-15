@@ -12,6 +12,8 @@ module Jsdoc
     cattr_accessor :mount_point
     @@source_path = 'jsdoc/source'
     cattr_accessor :source_path
+    @@single_project = true
+    cattr_accessor :single_project
     @@no_global = true
     cattr_accessor :no_global
 

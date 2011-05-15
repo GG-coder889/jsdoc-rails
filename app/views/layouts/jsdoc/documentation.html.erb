@@ -2,7 +2,11 @@
 <html lang="en"> 
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"> 
-    <title>API Documentation</title>
+    <% if @project.present? and @version.present? %>
+      <title><%= @project.name %> (<%= @version.version_number %>) API Documentation</title>
+    <% else %>
+      <title>API Documentation</title>
+    <% end %>
     <%= stylesheet_link_tag 'jsdoc/documentation' %>
     <%= javascript_include_tag 'https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js' %>
     <%= javascript_include_tag 'jsdoc/jsdoc.js' %>
@@ -16,13 +20,17 @@
         <%= render :partial => 'layouts/jsdoc/header' %>
       <% end %>
     </header>
-    <aside>
-      <% if content_for?(:aside) %>
+    <% if content_for?(:aside) %>
+      <aside>
         <%= yield :aside %>
-      <% else %>
-        <%= render :partial => 'layouts/jsdoc/aside_symbol_list' %>
+      </aside>
+    <% else %>
+      <% unless @version.nil? %>
+        <aside>
+          <%= render :partial => 'layouts/jsdoc/aside_symbol_list' %>
+        </aside>
       <% end %>
-    </aside>
+    <% end %>
     <div id="wrapper"<% if content_for?(:toolbar) %> class="has_toolbar"<% end %>>
       <% if content_for?(:toolbar) %>
         <nav class="toolbar">

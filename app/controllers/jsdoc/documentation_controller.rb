@@ -2,13 +2,21 @@ module Jsdoc
   class DocumentationController < ApplicationController
     layout 'jsdoc/documentation_wrapper'
 
+    before_filter :get_project_and_version, :except => [:index]
     before_filter :get_root_symbols, :except => [:raw_source]
 
     def index
     end
 
+    def welcome
+    end
+
     def symbol
-      @symbol = Jsdoc::Symbol.where(:alias => params[:symbol_alias]).first
+      if @version
+        @symbol = @version.symbols.where(:alias => params[:symbol_alias]).first
+      else
+        @symbol = Jsdoc::Symbol.where(:alias => params[:symbol_alias]).first
+      end
     end
 
     def source
@@ -22,6 +30,26 @@ module Jsdoc
     end
 
     private
+
+      def get_project_and_version
+
+        if params[:project_slug].present? or Jsdoc::Engine.single_project
+          if Jsdoc::Engine.single_project
+            @project = Jsdoc::Project.first
+          else
+            @project = Jsdoc::Project.where(:slug => params[:project_slug]).first
+          end
+
+          raise "No project named : #{params[:project_slug]}" if @project.nil?
+          # TODO render 404 if project not found
+
+          if @project.present? and params[:version_number].present?
+            @version = @project.versions.where(:version_number => params[:version_number]).first
+            raise "No version named : #{params[:version_number]}" if @version.nil?
+            # TODO render 404 if version not found
+          end
+        end
+      end
 
       def get_source_code(filename)
         if Jsdoc::Engine.source_path[0..0] == '/'
@@ -38,7 +66,11 @@ module Jsdoc
       end
 
       def get_root_symbols
-        @root_symbols = Jsdoc::Symbol.where(:member_of => nil)
+        if @version
+          @root_symbols = @version.symbols.where(:member_of => nil)
+        else
+          @root_symbols = Jsdoc::Symbol.where(:member_of => nil)
+        end
 
         if Jsdoc::Engine.no_global
           @root_symbols = @root_symbols.where('name != ?', '_global_')

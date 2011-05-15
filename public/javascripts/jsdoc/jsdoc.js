@@ -38,6 +38,9 @@ jQuery(document).ready(function($) {
 
   $(window).scroll(function() {
     $aside = $('body > aside');
+    if (!$aside[0]) {
+        return;
+    }
     if (!$aside[0].originalTop) {
       $aside[0].originalTop = parseInt($aside.css('top'), 10)
     }

@@ -1,4 +1,38 @@
 module Jsdoc::DocumentationHelper
+  # Path helpers
+  def jsdoc_welcome_path(*args)
+    if Jsdoc::Engine.single_project
+      jsdoc_version_welcome_path(@version.version_number, *args)
+    else
+      jsdoc_project_welcome_path(@project.slug, @version.version_number, *args)
+    end
+  end
+  
+  def jsdoc_symbol_path(*args)
+    if Jsdoc::Engine.single_project
+      jsdoc_version_symbol_path(@version.version_number, *args)
+    else
+      jsdoc_project_symbol_path(@project.slug, @version.version_number, *args)
+    end
+  end
+
+  def jsdoc_source_path(*args)
+    if Jsdoc::Engine.single_project
+      jsdoc_version_source_path(@version.version_number, *args)
+    else
+      jsdoc_project_source_path(@project.slug, @version.version_number, *args)
+    end
+  end
+
+  def jsdoc_raw_source_path(*args)
+    if Jsdoc::Engine.single_project
+      jsdoc_version_raw_source_path(@version.version_number, *args)
+    else
+      jsdoc_project_raw_source_path(@project.slug, @version.version_number, *args)
+    end
+  end
+
+
   def symbols
     return Jsdoc::Symbol.order(:alias)
   end

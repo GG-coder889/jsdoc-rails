@@ -1,1 +1,5 @@
-<h1>API Documentation</h1>
+<% if @project.present? and @version.present? %>
+  <h1><%= @project.name %> (<%= @version.version_number %>) API Documentation</h1>
+<% else %>
+  <h1>API Documentation</h1>
+<% end %>

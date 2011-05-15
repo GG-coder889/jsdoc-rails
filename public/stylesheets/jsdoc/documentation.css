@@ -262,8 +262,10 @@ table tr:target td {
     background: #ffd;
 }
 
-#wrapper {
+aside + #wrapper {
     margin-left: 242px;
+}
+#wrapper {
     background: #fff;
 }
 #wrapper h1 {
