@@ -1,5 +1,8 @@
 module Jsdoc
   class Symbol < ActiveRecord::Base
+    belongs_to :version, :class_name => 'Jsdoc::Version'
+    has_one :project, :through => :version
+
     belongs_to :constructor, :class_name => 'Jsdoc::Function'
     has_many :examples, :as => 'example_for'
 
