@@ -25,10 +25,10 @@ class JsdocGenerator < Rails::Generators::Base
   def create_migration_files
     migration_templates = File.join(File.dirname(__FILE__), 'templates/migrations/')
 
-    Dir.foreach(migration_templates) do |f|
+    Dir.entries(migration_templates).sort.each do |f|
       next unless f.ends_with?('.rb')
 
-      optional_migration_template "migrations/#{f}", "db/migrate/#{f}"
+      optional_migration_template "migrations/#{f}", "db/migrate/#{f.gsub(/^\d+_/, '')}"
     end
   end
 
@@ -45,7 +45,7 @@ class JsdocGenerator < Rails::Generators::Base
 
     def copy_dir(src, dst)
       Dir.foreach(src) do |f|
-        next if %w(. ..).include?(f)
+        next if %w(. ..).include?(f) or f[0..0] == '.'
         src_file = File.join(src, f)
         dst_file = File.join(dst, f)
 
