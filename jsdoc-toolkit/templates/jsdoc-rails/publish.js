@@ -2,6 +2,9 @@
 function publish(symbolSet) {
     var outputDir = JSDOC.opt.d,
         outputFile = JSDOC.opt.D.outputFile,
+        projectSlug = JSDOC.opt.D.projectSlug,
+        projectName = JSDOC.opt.D.projectName,
+        versionNumber = JSDOC.opt.D.versionNumber,
         templatesDir = JSDOC.opt.t || SYS.pwd+"../templates/jsdoc-rails/";
 
 	// is source output is suppressed, just display the links to the source file
@@ -53,7 +56,10 @@ function publish(symbolSet) {
 	
 	// create each of the class pages
     var output = "";
-    output = classTemplate.process(classes);
+    output = classTemplate.process({symbols: classes,
+                                projectSlug: projectSlug,
+                                projectName: projectName,
+                              versionNumber: versionNumber});
     
     IO.saveFile(outputDir, outputFile, output);
 }

@@ -1,19 +1,19 @@
 module Jsdoc
   class Symbol < ActiveRecord::Base
-    belongs_to :version, :class_name => 'Jsdoc::Version'
-    has_one :project, :through => :version
+    belongs_to :project_version, :class_name => 'Jsdoc::Version'
+    has_one :project, :through => :project_version
 
     belongs_to :constructor, :class_name => 'Jsdoc::Function'
-    has_many :examples, :as => 'example_for'
+    has_many :examples, :as => 'example_for', :dependent => :destroy
 
-    has_many :own_functions, :class_name => 'Jsdoc::Function'
-    has_many :own_properties, :class_name => 'Jsdoc::Property'
+    has_many :own_functions, :class_name => 'Jsdoc::Function', :dependent => :destroy
+    has_many :own_properties, :class_name => 'Jsdoc::Property', :dependent => :destroy
 
-    has_many :borrowed_functions_join,  :foreign_key => 'borrowed_to_id', :class_name => 'Jsdoc::BorrowedFunction'
-    has_many :borrowed_properties_join, :foreign_key => 'borrowed_to_id', :class_name => 'Jsdoc::BorrowedProperty'
+    has_many :borrowed_functions_join,  :foreign_key => 'borrowed_to_id', :class_name => 'Jsdoc::BorrowedFunction', :dependent => :destroy
+    has_many :borrowed_properties_join, :foreign_key => 'borrowed_to_id', :class_name => 'Jsdoc::BorrowedProperty', :dependent => :destroy
 
-    has_many :borrowed_functions, :through => :borrowed_functions_join,  :source => :function
-    has_many :borrowed_properties, :through => :borrowed_properties_join, :source => :property
+    has_many :borrowed_functions, :through => :borrowed_functions_join,  :source => :function, :dependent => :destroy
+    has_many :borrowed_properties, :through => :borrowed_properties_join, :source => :property, :dependent => :destroy
 
     has_many :children, :class_name => 'Jsdoc::Symbol', :foreign_key => :member_of, :primary_key => :alias
     has_many :subclasses, :class_name => 'Jsdoc::Symbol', :foreign_key => :extends, :primary_key => :alias

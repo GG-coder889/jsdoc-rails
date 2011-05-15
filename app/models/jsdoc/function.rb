@@ -1,15 +1,15 @@
 module Jsdoc
   class Function < ActiveRecord::Base
     belongs_to :symbol
-    has_many :params
-    has_many :returns
-    has_many :requires
-    has_many :throws
-    has_many :sees, :as => 'see_for'
-    has_many :examples, :as => 'example_for'
+    has_many :params, :dependent => :destroy
+    has_many :returns, :dependent => :destroy
+    has_many :requires, :dependent => :destroy
+    has_many :throws, :dependent => :destroy
+    has_many :sees, :as => 'see_for', :dependent => :destroy
+    has_many :examples, :as => 'example_for', :dependent => :destroy
 
-    has_many :borrowed_to_join, :class_name => 'Jsdoc::BorrowedFunction'
-    has_many :borrowed_to, :through => :borrowed_to_join
+    has_many :borrowed_to_join, :class_name => 'Jsdoc::BorrowedFunction', :dependent => :destroy
+    has_many :borrowed_to, :through => :borrowed_to_join, :dependent => :destroy
 
     scope :private, where(:is_private => true)
     scope :public, where(:is_private => false)

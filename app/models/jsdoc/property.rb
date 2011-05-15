@@ -2,8 +2,8 @@ module Jsdoc
   class Property < ActiveRecord::Base
     belongs_to :symbol
 
-    has_many :borrowed_to_join, :class_name => 'Jsdoc::BorrowedProperty'
-    has_many :borrowed_to, :through => :borrowed_to_join
+    has_many :borrowed_to_join, :class_name => 'Jsdoc::BorrowedProperty', :dependent => :destroy
+    has_many :borrowed_to, :through => :borrowed_to_join, :dependent => :destroy
 
     scope :private, where(:is_private => true)
     scope :public, where(:is_private => false)

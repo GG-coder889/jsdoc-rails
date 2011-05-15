@@ -9,7 +9,7 @@ returns    = {}
 sees       = {}
 
 
-<for each="symbol" in="data">
+<for each="symbol" in="data.symbols">
 {!
     var ownProperties = symbol.properties.filter(function($) {
                             return $.memberOf == symbol.alias && !$.isNamespace;
@@ -24,8 +24,18 @@ sees       = {}
                     });
 !}
 
+  project = Jsdoc::Project.where(:slug => {+ toRuby(data.projectSlug) +}).first
+  if project.nil?
+    project = Jsdoc::Project.create(:name => {+ toRuby(data.projectName) +}, :slug => {+ toRuby(data.projectSlug) +})
+  end
+
+  version = project.versions.where(:version_number => {+ toRuby(data.versionNumber) +}).first
+  if version.nil?
+    version = project.versions.create(:version_number => {+ toRuby(data.versionNumber) +})
+  end
+
   # Class for {+ symbol.alias +}
-  classes['{+ symbol.alias +}'] = Jsdoc::Symbol.create(
+  classes['{+ symbol.alias +}'] = version.symbols.create(
     'name'                   => {+ toRuby(symbol.name) +},
     'alias'                  => {+ toRuby(symbol.alias) +},
     'member_of'              => {+ toRuby(symbol.memberOf) +},
@@ -399,7 +409,7 @@ sees       = {}
 
 </for>
 
-<for each="symbol" in="data">
+<for each="symbol" in="data.symbols">
 {!
     var borrowedProperties = symbol.properties.filter(function($) {
                                  return $.memberOf != symbol.alias;
