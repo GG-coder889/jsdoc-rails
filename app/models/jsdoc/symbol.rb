@@ -15,10 +15,10 @@ module Jsdoc
     has_many :borrowed_functions, :through => :borrowed_functions_join,  :source => :function, :dependent => :destroy
     has_many :borrowed_properties, :through => :borrowed_properties_join, :source => :property, :dependent => :destroy
 
-    has_many :children, :class_name => 'Jsdoc::Symbol', :foreign_key => :member_of, :primary_key => :alias
-    has_many :subclasses, :class_name => 'Jsdoc::Symbol', :foreign_key => :extends, :primary_key => :alias
+    has_many :children, :class_name => 'Jsdoc::Symbol', :foreign_key => :member_of, :primary_key => :alias, :conditions => ['version_id = ?', '#{version_id}']
+    has_many :subclasses, :class_name => 'Jsdoc::Symbol', :foreign_key => :extends, :primary_key => :alias, :conditions => ['version_id = ?', '#{version_id}']
 
-    belongs_to :superclass, :class_name => 'Jsdoc::Symbol', :foreign_key => :extends, :primary_key => :alias
+    belongs_to :superclass, :class_name => 'Jsdoc::Symbol', :foreign_key => :extends, :primary_key => :alias, :conditions => ['version_id = ?', '#{version_id}']
 
     scope :namespaces, where(:symbol_type => 'namespace')
     scope :classes, where(:symbol_type => 'class')
