@@ -1,7 +1,17 @@
 <div id="welcome">
   <header>
-    <h1>Welcome</h1>
+    <h1>Select Documentation</h1>
   </header>
-  <p>This is the default welcome page for jsdoc-rails.</p>
-  <p>To replace this message you should create your own view in <i>app/views/jsdoc/documentation/index.html.erb</i></p>
+  <p>Select the API Documentation you want to view.</p>
+  <% @projects.each do |project| %>
+    <ul>
+      <li><%= project.name %>
+        <ul>
+          <% project.versions.each do |version| %>
+            <li><%= link_to(version.version_number, jsdoc_project_welcome_path(project.slug, version.version_number)) %></li>
+          <% end %>
+        </ul>
+      </li>
+    </ul>
+  <% end %>
 </div>

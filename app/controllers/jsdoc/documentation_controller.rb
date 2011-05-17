@@ -6,6 +6,7 @@ module Jsdoc
     before_filter :get_root_symbols, :except => [:raw_source]
 
     def index
+      @projects = Project.all
     end
 
     def welcome
