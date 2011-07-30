@@ -39,7 +39,7 @@ def output_jsdocs(src, dst, project_name, version_number)
   jsdoc_path = File.join(File.dirname(__FILE__), '../../../jsdoc-toolkit')
   template_path = File.join(jsdoc_path, 'templates', 'jsdoc-rails')
   
-  project_slug = project_name.gsub(/[^0-9a-zA-Z-_]+/, '-').gsub(/-+/, '-').gsub(/^-|-$/, '').downcase
+  project_slug = project_name.gsub(/[^0-9a-zA-Z\-_]+/, '-').gsub(/-+/, '-').gsub(/^-|-$/, '').downcase
 
   puts "Reading from: #{ENV['SRC']}"
   puts "Outputing to: #{File.join(output_dir, output_file)}"
