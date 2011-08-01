@@ -36,7 +36,7 @@ end
 def output_jsdocs(src, dst, project_name, version_number)
   output_dir = File.dirname(dst)
   output_file = File.basename(dst)
-  jsdoc_path = File.join(File.dirname(__FILE__), '../../../jsdoc-toolkit')
+  jsdoc_path = File.join(File.dirname(__FILE__), '../../jsdoc-toolkit')
   template_path = File.join(jsdoc_path, 'templates', 'jsdoc-rails')
   
   project_slug = project_name.gsub(/[^0-9a-zA-Z\-_]+/, '-').gsub(/-+/, '-').gsub(/^-|-$/, '').downcase
