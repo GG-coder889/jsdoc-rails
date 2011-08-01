@@ -1,34 +1,34 @@
 module Jsdoc::DocumentationHelper
   # Path helpers
-  def jsdoc_welcome_path(*args)
+  def welcome_path(*args)
     if Jsdoc::Engine.single_project
-      jsdoc_version_welcome_path(@version.version_number, *args)
+      version_welcome_path(@version.version_number, *args)
     else
-      jsdoc_project_welcome_path(@project.slug, @version.version_number, *args)
+      project_welcome_path(@project.slug, @version.version_number, *args)
     end
   end
   
-  def jsdoc_symbol_path(*args)
+  def symbol_path(*args)
     if Jsdoc::Engine.single_project
-      jsdoc_version_symbol_path(@version.version_number, *args)
+      version_symbol_path(@version.version_number, *args)
     else
-      jsdoc_project_symbol_path(@project.slug, @version.version_number, *args)
+      project_symbol_path(@project.slug, @version.version_number, *args)
     end
   end
 
-  def jsdoc_source_path(*args)
+  def source_path(*args)
     if Jsdoc::Engine.single_project
-      jsdoc_version_source_path(@version.version_number, *args)
+      version_source_path(@version.version_number, *args)
     else
-      jsdoc_project_source_path(@project.slug, @version.version_number, *args)
+      project_source_path(@project.slug, @version.version_number, *args)
     end
   end
 
-  def jsdoc_raw_source_path(*args)
+  def raw_source_path(*args)
     if Jsdoc::Engine.single_project
-      jsdoc_version_raw_source_path(@version.version_number, *args)
+      version_raw_source_path(@version.version_number, *args)
     else
-      jsdoc_project_raw_source_path(@project.slug, @version.version_number, *args)
+      project_raw_source_path(@project.slug, @version.version_number, *args)
     end
   end
 
@@ -53,7 +53,7 @@ module Jsdoc::DocumentationHelper
   def full_class_list
     output = '<ul>'
     Jsdoc::Symbol.where(:member_of => nil).each do |child|
-      output += '<li>' + link_to(list_namespace(child), jsdoc_symbol_path(child.alias)) + '</li>'
+      output += '<li>' + link_to(list_namespace(child), symbol_path(child.alias)) + '</li>'
     end
     output += '</ul>'
     return output.html_safe
@@ -64,7 +64,7 @@ module Jsdoc::DocumentationHelper
     if namespace.children.size > 0
       output += '<ul>'
       for child in namespace.children
-        output += '<li>' + link_to(list_namespace(child), jsdoc_symbol_path(child.alias)) + '</li>'
+        output += '<li>' + link_to(list_namespace(child), symbol_path(child.alias)) + '</li>'
       end
       output += '</ul>'
     end

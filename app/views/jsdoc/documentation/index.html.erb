@@ -8,7 +8,7 @@
       <li><%= project.name %>
         <ul>
           <% project.versions.each do |version| %>
-            <li><%= link_to(version.version_number, jsdoc_project_welcome_path(project.slug, version.version_number)) %></li>
+            <li><%= link_to(version.version_number, project_welcome_path(project.slug, version.version_number)) %></li>
           <% end %>
         </ul>
       </li>

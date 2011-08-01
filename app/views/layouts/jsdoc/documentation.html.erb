@@ -7,9 +7,9 @@
     <% else %>
       <title>API Documentation</title>
     <% end %>
-    <%= stylesheet_link_tag 'jsdoc/documentation' %>
-    <%= javascript_include_tag 'https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js' %>
-    <%= javascript_include_tag 'jsdoc/jsdoc.js' %>
+    <%= stylesheet_link_tag    "jsdoc/application" %>
+    <%= javascript_include_tag "jsdoc/application" %>
+    <%= csrf_meta_tags %>
     <%= yield :head %>
   </head>
   <body>
@@ -45,7 +45,7 @@
       <% if content_for?(:footer) %>
         <%= yield :footer %>
       <% else %>
-        <p><%= link_to('jsdoc-rails', 'https://github.com/RyanWilliams/jsdoc-rails') %> v<%= Jsdoc::VERSION %></p>
+        <p><%= link_to('jsdoc-rails', 'https://github.com/RyanWilliams/jsdoc-rails') %> v<%= Jsdoc::ENGINE_VERSION %></p>
       <% end %>
     </footer>
   </body>

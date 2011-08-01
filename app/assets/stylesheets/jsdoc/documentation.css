@@ -18,7 +18,6 @@ body {
 }
 
 body > header {
-    background: transparent url(../images/cocos2d-icon.png) no-repeat left center;
     height: 60px;
     line-height: 80px;
     margin: -10px 0 10px 0;
@@ -155,28 +154,28 @@ body > aside li > a::before {
     height: 1.75em;
     background-position: 3px top;
     background-repeat: no-repeat;
-    background-image: url(../../images/jsdoc/icons/docs.gif);
+    background-image: url(/assets/jsdoc/icons/docs.gif);
 }
 body > aside li li > a::before {
     width: 36px;
     background-position: 0px top, 18px center;
     background-repeat: no-repeat;
-    background-image: url(../../images/jsdoc/icons/elbow.gif), url(../../images/jsdoc/icons/docs.gif);
+    background-image: url(/assets/jsdoc/icons/elbow.gif), url(/assets/jsdoc/icons/docs.gif);
 }
 body > aside li:last-child > a::before {
-    background-image: url(../../images/jsdoc/icons/elbow-end.gif), url(../../images/jsdoc/icons/docs.gif);  
+    background-image: url(/assets/jsdoc/icons/elbow-end.gif), url(/assets/jsdoc/icons/docs.gif);  
 }
 body > aside li.class > a::before {
-    background-image: url(../../images/jsdoc/icons/elbow.gif), url(../../images/jsdoc/icons/class.gif);
+    background-image: url(/assets/jsdoc/icons/elbow.gif), url(/assets/jsdoc/icons/class.gif);
 }
 body > aside li.class:last-child > a::before {
-    background-image: url(../../images/jsdoc/icons/elbow-end.gif), url(../../images/jsdoc/icons/class.gif);
+    background-image: url(/assets/jsdoc/icons/elbow-end.gif), url(/assets/jsdoc/icons/class.gif);
 }
 body > aside li.namespace > a::before {
-    background-image: url(../../images/jsdoc/icons/elbow.gif), url(../../images/jsdoc/icons/pkg.gif);
+    background-image: url(/assets/jsdoc/icons/elbow.gif), url(/assets/jsdoc/icons/pkg.gif);
 }
 body > aside li.namespace:last-child > a::before {
-    background-image: url(../../images/jsdoc/icons/elbow-end.gif), url(../../images/jsdoc/icons/pkg.gif);
+    background-image: url(/assets/jsdoc/icons/elbow-end.gif), url(/assets/jsdoc/icons/pkg.gif);
 }
 body > aside li a:hover {
     background-color: #eee;
@@ -418,7 +417,7 @@ aside + #wrapper {
     padding-left: 20px;
     background-position: left top;
     background-repeat: no-repeat;
-    background-image: url(../../images/jsdoc/icons/elbow-end.gif);
+    background-image: url(/assets/jsdoc/icons/elbow-end.gif);
 }
 #inheritance_tree > ul {
     padding: 5px;
@@ -437,7 +436,7 @@ table.members tr.borrowed td:last-child a {
     padding-left: 16px;
     background-position: left center;
     background-repeat: no-repeat;
-    background-image: url(../../images/jsdoc/icons/inherited.gif);
+    background-image: url(/assets/jsdoc/icons/inherited.gif);
 }
 table.members a.member_link {
     font-weight: bold;
@@ -469,13 +468,13 @@ table.members .flag {
     background-repeat: no-repeat;
 }
 .toolbar li a[href$="_properties"]::before {
-    background-image: url(../../images/jsdoc/icons/prop.gif);
+    background-image: url(/assets/jsdoc/icons/prop.gif);
 }
 .toolbar li a[href$="_methods"]::before {
-    background-image: url(../../images/jsdoc/icons/method.gif);
+    background-image: url(/assets/jsdoc/icons/method.gif);
 }
 .toolbar li a[href$="_events"]::before {
-    background-image: url(../../images/jsdoc/icons/event.gif);
+    background-image: url(/assets/jsdoc/icons/event.gif);
 }
 
 #source pre {

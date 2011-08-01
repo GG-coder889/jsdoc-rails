@@ -1,6 +1,6 @@
 <% content_for(:toolbar) do %>
   <ul>
-    <li><%= link_to('Raw Source File', jsdoc_raw_source_path(@filename), :onclick => 'window.open(this.href);return false') %></li>
+    <li><%= link_to('Raw Source File', raw_source_path(@filename), :onclick => 'window.open(this.href);return false') %></li>
   </ul>
 <% end %>
 <div id="source">

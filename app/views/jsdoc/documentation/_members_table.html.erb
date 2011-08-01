@@ -28,7 +28,7 @@
               </div>
             <% end %>
           </td>
-          <td><%= m.symbol == @symbol ? @symbol.name : link_to(m.symbol.name, jsdoc_symbol_path(m.symbol.alias) + "##{member_type.underscore}_#{m.name}") %></td>
+          <td><%= m.symbol == @symbol ? @symbol.name : link_to(m.symbol.name, symbol_path(m.symbol.alias) + "##{member_type.underscore}_#{m.name}") %></td>
         </tr>
       <% end %>
     </tbody>
