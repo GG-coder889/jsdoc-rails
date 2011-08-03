@@ -14,15 +14,17 @@ Then run
 
   bundle install
 
-Next you need to copy the static assets (images, javascript and stylesheet) and
-also generate the migrations to create the JSDoc tables. They are all prefixed
-with 'jsdoc_' so shouldn't conflict with anything you already have.
+Next you need to install the migrations into your main application.
 
-  rails g jsdoc
+  rake jsdoc:install:migrations
 
 Migrate your database
 
   rake db:migrate
+
+Finall, add the route to your config/routes.rb
+
+  mount Jsdoc::Engine => "/documentation"
 
 == Loading the data
 
@@ -51,18 +53,18 @@ Now copy the file to the machine you want to load the data onto and import it wi
 
 == Configuration
 
-There are 2 configuration options you can set. You specify them in an initializer.
-i.e. A file named config/initializers/jsdoc.rb
+There are 2 configuration options you can set. You specify them in your
+application.rb file along with your other configuration options.
 
-The first option is to specify the URL path the documentation will live at
+The first option is the file-system path where your javascript source code is.
+This is relative to the Rails 'public' folder or an absolute path. The files
+are only used for rendering the source code in the documentation.
 
-  Jsdoc::Engine.mount_point = '/documentation'
+  config.jsdoc.source_path = 'jsdoc/source'
 
-And the second option is the file-system path where your javascript source code
-is. This is relative to the Rails 'public' folder or an absolute path. This is
-only used to rendering the source code in the documentation.
+The second options is a flag to hide the _global_ group in the documentation tree.
 
-  Jsdoc::Engine.source_path = 'jsdoc/source'
+  config.jsdoc.no_global = true
 
 == Creating views
 

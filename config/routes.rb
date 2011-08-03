@@ -1,6 +1,6 @@
 Jsdoc::Engine.routes.draw do
   root :to => 'documentation#index', :as => 'jsdoc_root'
-  if Jsdoc::Engine.single_project
+  if ::Rails.configuration.jsdoc.single_project
     scope :path => '/:version_number', :version_number => /[^\/]*/ do
       root  :to                => 'documentation#welcome',    :as => 'version_welcome'
       match ':symbol_alias'    => 'documentation#symbol',     :as => 'version_symbol',     :symbol_alias => /[^\/]+/

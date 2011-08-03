@@ -1,7 +1,7 @@
 module Jsdoc::DocumentationHelper
   # Path helpers
   def welcome_path(*args)
-    if Jsdoc::Engine.single_project
+    if ::Rails.configuration.jsdoc.single_project
       version_welcome_path(@version.version_number, *args)
     else
       project_welcome_path(@project.slug, @version.version_number, *args)
@@ -9,7 +9,7 @@ module Jsdoc::DocumentationHelper
   end
   
   def symbol_path(*args)
-    if Jsdoc::Engine.single_project
+    if ::Rails.configuration.jsdoc.single_project
       version_symbol_path(@version.version_number, *args)
     else
       project_symbol_path(@project.slug, @version.version_number, *args)
@@ -17,7 +17,7 @@ module Jsdoc::DocumentationHelper
   end
 
   def source_path(*args)
-    if Jsdoc::Engine.single_project
+    if ::Rails.configuration.jsdoc.single_project
       version_source_path(@version.version_number, *args)
     else
       project_source_path(@project.slug, @version.version_number, *args)
@@ -25,7 +25,7 @@ module Jsdoc::DocumentationHelper
   end
 
   def raw_source_path(*args)
-    if Jsdoc::Engine.single_project
+    if ::Rails.configuration.jsdoc.single_project
       version_raw_source_path(@version.version_number, *args)
     else
       project_raw_source_path(@project.slug, @version.version_number, *args)

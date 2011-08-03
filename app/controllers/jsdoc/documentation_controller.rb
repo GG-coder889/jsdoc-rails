@@ -34,8 +34,8 @@ module Jsdoc
 
       def get_project_and_version
 
-        if params[:project_slug].present? or Jsdoc::Engine.single_project
-          if Jsdoc::Engine.single_project
+        if params[:project_slug].present? or ::Rails.configuration.jsdoc.single_project
+          if ::Rails.configuration.jsdoc.single_project
             @project = Jsdoc::Project.first
           else
             @project = Jsdoc::Project.where(:slug => params[:project_slug]).first
@@ -73,7 +73,7 @@ module Jsdoc
           @root_symbols = Jsdoc::Symbol.where(:member_of => nil)
         end
 
-        if Jsdoc::Engine.no_global
+        if ::Rails.configuration.jsdoc.no_global
           @root_symbols = @root_symbols.where('name != ?', '_global_')
         end
       end
