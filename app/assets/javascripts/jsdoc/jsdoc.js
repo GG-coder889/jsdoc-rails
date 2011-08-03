@@ -45,8 +45,13 @@ jQuery(document).ready(function($) {
       $aside[0].originalTop = parseInt($aside.css('top'), 10)
     }
   
-    var ot = $aside[0].originalTop;
-    var newTop = Math.max(ot - $(window).scrollTop(), 20);
+    var ot = $aside[0].originalTop,
+        scrollTop = $(window).scrollTop();
+
+    if (scrollTop < 0) {
+        scrollTop = 0;
+    }
+    var newTop = Math.max(ot - scrollTop, 20);
   
     $('body > aside').css('top', newTop);
   });
