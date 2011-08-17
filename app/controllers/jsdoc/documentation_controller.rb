@@ -53,10 +53,10 @@ module Jsdoc
       end
 
       def get_source_code(filename)
-        if Jsdoc::Engine.source_path[0..0] == '/'
-          source_root = File.expand_path(File.join(Jsdoc::Engine.source_path, @project.slug, @version.version_number))
+        if ::Rails.configuration.jsdoc.source_path[0..0] == '/'
+          source_root = File.expand_path(File.join(::Rails.configuration.jsdoc.source_path, @project.slug, @version.version_number))
         else
-          source_root = File.expand_path(File.join(Rails.root, 'public', Jsdoc::Engine.source_path, @project.slug, @version.version_number))
+          source_root = File.expand_path(File.join(Rails.root, 'public', ::Rails.configuration.jsdoc.source_path, @project.slug, @version.version_number))
         end
         file_path = File.expand_path(File.join(source_root, filename))
 
