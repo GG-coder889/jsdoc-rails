@@ -482,3 +482,7 @@ table.members .flag {
     font-family: "Lucida Console", "Courier New", Courier, monospace;
     font-size: 1.1em;
 }
+#symbol .method_params .option_open,
+#symbol .method_params .option_close {
+    font-weight: bold;
+}

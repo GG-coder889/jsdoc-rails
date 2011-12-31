@@ -1,11 +1,17 @@
-(<span class="method_params">
-  <% params.each do |p| %>
-    <% next if p.name.include?('.') %>
-    <% if p != params.first %>
-,
-    <% end %>
-<%= '[' if p.is_optional -%>
-<span class="param_name"><%= p.name %></span>
-:
-<span class="param_type"><%= link_to_symbol(p.param_type) || '*' %></span><%= ']' if p.is_optional -%><% end %>
-</span>)
+<% # Extract arguments.* from params
+pars = []
+args = {}
+params.each do |p|
+  pars << p and next unless p.name.include? '.'
+
+  name = p.name.split('.')
+  p.name = name.last
+
+  args[name.first] ||= []
+  args[name.first] << p
+end
+-%>
+(<span class="method_params"><%= (render :partial => 'params', :locals => {params: pars}).strip.html_safe -%>
+  <% unless args.empty? -%>
+   <% args.each do |obj, params| -%>
+<span class="options"><span class="option_open">{</span> <%= render :partial => 'params', :locals => {params: params} %> <span class="option_close">}</span></span><% end %><% end %></span>)
