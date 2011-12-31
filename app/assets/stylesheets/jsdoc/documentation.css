@@ -442,8 +442,6 @@ table.members a.member_link {
     font-weight: bold;
 }
 table.members .param_name {
-    font-family: "Lucida Console", "Courier New", Courier, monospace;
-    font-size: 0.9em;
 }
 table.members .description {
     margin-top: 5px;
@@ -452,6 +450,35 @@ table.members .description {
 table.members .flag {
     color: #aaa;
     font-style: italic;
+}
+table.members .method_params {
+    color: #777;
+}
+table.members .method_params .option_open,
+table.members .method_params .option_close {
+    color: #000;
+    font-weight: bold;
+}
+table.members .method_params .param_list {
+    margin-right: .5em;
+}
+table.members .method_params .param {
+    margin-left: .5em;
+}
+table.members .method_params .param_name {
+}
+table.members .method_params .options .param_name {
+    color: #000;
+}
+table.members .method_params .param_type {
+    margin-left: .5em;
+    font-size: 0.9em;
+    font-family: "Lucida Console", "Courier New", Courier, monospace;
+    color: #000;
+}
+table.members .return_type {
+    font-size: 0.9em;
+    font-family: "Lucida Console", "Courier New", Courier, monospace;
 }
 
 
@@ -481,8 +508,4 @@ table.members .flag {
     margin: 0;
     font-family: "Lucida Console", "Courier New", Courier, monospace;
     font-size: 1.1em;
-}
-#symbol .method_params .option_open,
-#symbol .method_params .option_close {
-    font-weight: bold;
 }

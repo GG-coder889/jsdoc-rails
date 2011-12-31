@@ -11,7 +11,7 @@ params.each do |p|
   args[name.first] << p
 end
 -%>
-(<span class="method_params"><%= (render :partial => 'params', :locals => {params: pars}).strip.html_safe -%>
+(<span class="method_params"><%= (render :partial => 'params', :locals => {params: pars}).strip.html_safe unless pars.empty? -%>
   <% unless args.empty? -%>
    <% args.each do |obj, params| -%>
-<span class="options"><span class="option_open">{</span> <%= render :partial => 'params', :locals => {params: params} %> <span class="option_close">}</span></span><% end %><% end %></span>)
+<span class="options"><span class="option_open">{</span><%= (render :partial => 'params', :locals => {params: params}).strip.html_safe %><span class="option_close">}</span></span><% end %><% end %></span>)
