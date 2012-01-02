@@ -80,7 +80,7 @@ module Jsdoc::DocumentationHelper
 
     html = ''
     symbols.each do |s|
-      symbol = Jsdoc::Symbol.where(:alias => s).first
+      symbol = Jsdoc::Symbol.where(:alias => s.gsub(/\[\]$/, '')).first
 
       html += '/' unless html.blank?
       if symbol.nil?
