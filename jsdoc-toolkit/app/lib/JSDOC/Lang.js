@@ -65,7 +65,9 @@ JSDOC.Lang.keyword.names = {
 	"=void":       "VOID",
 	"=while":      "WHILE",
 	"=with":       "WITH",
-	"=var":        "VAR"
+	"=var":        "VAR",
+	"=get":        "GET",
+	"=set":        "SET"
 };
 
 JSDOC.Lang.punc = function(ch) {
@@ -120,7 +122,9 @@ JSDOC.Lang.matching.names = {
 	"LEFT_CURLY": "RIGHT_CURLY",
 	"RIGHT_CURLY": "LEFT_CURLY",
 	"LEFT_BRACE": "RIGHT_BRACE",
-	"RIGHT_BRACE": "LEFT_BRACE"
+	"RIGHT_BRACE": "LEFT_BRACE",
+	"LEFT_BRACKET": "RIGHT_BRACKET",
+	"RIGHT_BRACKET": "LEFT_BRACKET"
 }
 
 JSDOC.Lang.isNumber = function(str) {
