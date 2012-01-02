@@ -10,11 +10,12 @@ html, body {
     padding: 0;
 }
 body {
-    font-family: Tahoma, Verdana, Helvetica, Arial, sans-serif;
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
     font-size: 0.8em;
-    padding: 20px;
+    padding: 14px;
     background: #EDEDED;
     color: #222;
+    overflow: hidden;
 }
 
 body > header {
@@ -28,6 +29,9 @@ body > footer {
     font-size: 0.8em;
     color: #999;
     text-align: right;
+    position: absolute;
+    top: 0;
+    right: 15px;
 }
 body > footer a {
     color: #999;
@@ -45,6 +49,11 @@ a:hover {
 }
 h1, h2, h3, h4, h5 {
     font-family: Trebuchet, "Trebuchet MS", "Bitstream Vera Sans", verdana, lucida, helvetica, arial, sans-serif;
+}
+
+a.symbol {
+    font-family: "Menlo", "Lucida Console", "Courier New", Courier, monospace;
+    font-size: 0.9em;
 }
 
 body > aside,
@@ -87,12 +96,12 @@ body > header h1 {
 
 body > aside {
     position: fixed;
-    left: 20px;
-    top: 80px;
-    bottom: 20px;
+    left: 14px;
+    top: 70px;
+    bottom: 14px;
 
     font-size: 0.85em;
-    width: 220px;
+    width: 230px;
     background: #fff;
 }
 
@@ -101,7 +110,7 @@ body > aside > .toolbar input {
     margin: 0;
     border: 1px solid #C1C1C1;
     height: 16px;
-    width: 206px;
+    width: 216px;
     outline: none;
     padding: 3px 3px 0 3px;
 
@@ -160,22 +169,19 @@ body > aside li li > a::before {
     width: 36px;
     background-position: 0px top, 18px center;
     background-repeat: no-repeat;
-    background-image: url(/assets/jsdoc/icons/elbow.gif), url(/assets/jsdoc/icons/docs.gif);
+    background-image: url(/assets/jsdoc/icons/elbow-plus.gif), url(/assets/jsdoc/icons/docs.gif);
 }
 body > aside li:last-child > a::before {
-    background-image: url(/assets/jsdoc/icons/elbow-end.gif), url(/assets/jsdoc/icons/docs.gif);  
 }
 body > aside li.class > a::before {
-    background-image: url(/assets/jsdoc/icons/elbow.gif), url(/assets/jsdoc/icons/class.gif);
+    background-image: none, url(/assets/jsdoc/icons/class.gif);
 }
 body > aside li.class:last-child > a::before {
-    background-image: url(/assets/jsdoc/icons/elbow-end.gif), url(/assets/jsdoc/icons/class.gif);
 }
 body > aside li.namespace > a::before {
-    background-image: url(/assets/jsdoc/icons/elbow.gif), url(/assets/jsdoc/icons/pkg.gif);
+    background-image: url(/assets/jsdoc/icons/elbow-plus.gif), url(/assets/jsdoc/icons/pkg.gif);
 }
 body > aside li.namespace:last-child > a::before {
-    background-image: url(/assets/jsdoc/icons/elbow-end.gif), url(/assets/jsdoc/icons/pkg.gif);
 }
 body > aside li a:hover {
     background-color: #eee;
@@ -258,15 +264,25 @@ table td:nth-last-child(2) {
     border-right: none;
 }
 table tr:target td {
+    background: transparent;
+}
+table tr:target {
     background: #ffd;
 }
 
+
 aside + #wrapper {
-    margin-left: 242px;
+    left: 261px;
 }
 #wrapper {
     background: #fff;
+    position: absolute;
+    left: 14px;
+    right: 14px;
+    top: 70px;
+    bottom: 14px;
 }
+
 #wrapper h1 {
     margin-top: 0;
 }
@@ -275,7 +291,7 @@ aside + #wrapper {
     border-top: 1px solid #fff;
     border-bottom: 1px solid #D0D0D0;
     padding: 2px 3px;
-    min-height: 22px;
+    height: 22px;
     text-align: right;
 }
 .toolbar ul,
@@ -341,8 +357,30 @@ aside + #wrapper {
 }
 
 #content {
-    padding: 20px;
+    padding: 14px;
+    position: absolute;
+    top: 28px;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    overflow: auto;
 }
+#content.loading::before {
+    content: '';
+    background-image: url(/assets/jsdoc/icons/spinner.gif);
+    background-position: center center;
+    width: 28px;
+    height: 28px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    /* half 261px left margin - half image size (14)*/
+    margin: 32px 0 0 116px;
+}
+#content.loading > *:first-child {
+    opacity: 0.25;
+}
+
 
 #symbol h1 {
     font-size: 1.5em;
@@ -473,14 +511,86 @@ table.members .method_params .options .param_name {
 table.members .method_params .param_type {
     margin-left: .5em;
     font-size: 0.9em;
-    font-family: "Lucida Console", "Courier New", Courier, monospace;
+    font-family: "Menlo", "Lucida Console", "Courier New", Courier, monospace;
     color: #000;
 }
 table.members .return_type {
     font-size: 0.9em;
-    font-family: "Lucida Console", "Courier New", Courier, monospace;
+    font-family: "Menlo", "Lucida Console", "Courier New", Courier, monospace;
 }
-
+table.members .return_type a.symbol,
+table.members .method_params .param_type a.symbol {
+    font-size: 1em;
+}
+table.members tr .detail {
+    display: none;
+}
+table.members tr.collapsed .detail {
+    display: none ! important;
+}
+#symbol table.members tr .detail h2 {
+    font-size: 1.1em;
+    margin-bottom: 0;
+    color: #444;
+}
+table.members tr .detail ul,
+table.members tr .detail ol {
+    margin-top: 0.5em;
+    padding-left: 2em;
+    color: #444;
+}
+table.members tr:target .detail,
+table.members tr.expanded .detail {
+    display: block;
+}
+table.members tr:target span.detail,
+table.members tr.expanded span.detail {
+    display: inline;
+}
+table.members .member_detail li {
+    margin-bottom: 1em;
+}
+table.members .member_detail .optional {
+    font-style: italic;
+    color: #777;
+    font-size: 0.8em;
+    margin-left: 1em;
+}
+table.members .member_detail .type {
+    margin-bottom: 0.25em;
+}
+table.members .member_detail .param_name {
+    font-weight: bold;
+}
+table.members .expander {
+    width: 2em;
+    padding: 0;
+    position: relative;
+}
+table.members .expander a {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    padding-left: 5em;
+    background-color: rgba(0, 0, 0, 0.05);
+    background-image: url(/assets/jsdoc/icons/arrow_state_blue_right.png);
+    background-position: center .4em;
+    background-repeat: no-repeat;
+    border-right: 1px solid #D9D9D9;
+}
+table.members .expander a:hover {
+    background-color: rgba(0, 0, 0, 0.075);
+}
+table.members tr:target .expander a,
+table.members tr.expanded .expander a {
+    background-image: url(/assets/jsdoc/icons/arrow_state_blue_expanded.png);
+}
+table.members tr.collapsed .expander a {
+    background-image: url(/assets/jsdoc/icons/arrow_state_blue_right.png) ! important;
+}
 
 .toolbar li a[href$="_properties"]::before,
 .toolbar li a[href$="_methods"]::before,
@@ -506,6 +616,6 @@ table.members .return_type {
 
 #source pre {
     margin: 0;
-    font-family: "Lucida Console", "Courier New", Courier, monospace;
+    font-family: "Menlo", "Lucida Console", "Courier New", Courier, monospace;
     font-size: 1.1em;
 }

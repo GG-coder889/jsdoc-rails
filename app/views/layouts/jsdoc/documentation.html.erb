@@ -1,7 +1,7 @@
-<!DOCTYPE html> 
-<html lang="en"> 
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"> 
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     <% if @project.present? and @version.present? %>
       <title><%= @project.name %> (<%= @version.version_number %>) API Documentation</title>
     <% else %>
@@ -11,6 +11,12 @@
     <%= javascript_include_tag "jsdoc/application" %>
     <%= csrf_meta_tags %>
     <%= yield :head %>
+
+    <% if @project.present? %>
+      <script type="text/javascript">
+        window.URL_ROOT = <%= raw(project_welcome_path(@project.slug, @version.version_number).to_json) %>
+      </script>
+    <% end %>
   </head>
   <body>
     <header>

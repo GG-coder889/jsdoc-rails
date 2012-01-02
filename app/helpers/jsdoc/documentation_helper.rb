@@ -7,7 +7,7 @@ module Jsdoc::DocumentationHelper
       project_welcome_path(@project.slug, @version.version_number, *args)
     end
   end
-  
+
   def symbol_path(*args)
     if ::Rails.configuration.jsdoc.single_project
       version_symbol_path(@version.version_number, *args)
@@ -31,7 +31,6 @@ module Jsdoc::DocumentationHelper
       project_raw_source_path(@project.slug, @version.version_number, *args)
     end
   end
-
 
   def symbols
     return Jsdoc::Symbol.order(:alias)
@@ -76,9 +75,51 @@ module Jsdoc::DocumentationHelper
   def link_to_symbol(symbol_type)
     return nil if symbol_type.blank?
 
-    symbol = Jsdoc::Symbol.where(:alias => symbol_type).first
-    return symbol_type if symbol.nil?
+    # split symbols on | or /
+    symbols = symbol_type.split(/\||\//)
 
-    return link_to(symbol_type, symbol.alias)
+    html = ''
+    symbols.each do |s|
+      symbol = Jsdoc::Symbol.where(:alias => s).first
+
+      html += '/' unless html.blank?
+      if symbol.nil?
+        html += s
+      else
+        html += link_to(s, symbol_path(symbol.alias), :class => 'symbol')
+      end
+    end
+
+    return html.html_safe
+  end
+
+  def split_line_detail(str)
+    str.strip.match(/^((?!\.\s).+?\.\s)?(.*)/m)[1..-1].map{|s| s.to_s.strip }
+  end
+
+  def first_line(str)
+    line = split_line_detail(str)[0]
+    line.present? ? line : str.strip
+  end
+
+  def without_first_line(str)
+    detail = split_line_detail(str)
+    # Empty first line means detail[1] is the first line
+    detail[0].present? ? detail[1].strip : ''
+  end
+
+  def returns_detail(r)
+    r_type = r.return_type || r.description
+    r_desc = r.return_type.present? ? r.description : nil
+
+    return '' if r_type.blank?
+
+    str = '<div class="type">' + link_to_symbol(r_type) + '</div>'
+
+    if r_desc.present?
+      str += '<div class="description">' + r.description + '</div>'
+    end
+
+    str.html_safe
   end
 end

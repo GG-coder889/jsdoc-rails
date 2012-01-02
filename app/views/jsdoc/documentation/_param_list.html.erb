@@ -4,6 +4,7 @@ args = {}
 params.each do |p|
   pars << p and next unless p.name.include? '.'
 
+  p = p.dup
   name = p.name.split('.')
   p.name = name.last
 

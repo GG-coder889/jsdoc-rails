@@ -1,0 +1,68 @@
+<% if member.is_a?(Jsdoc::Function) %>
+  <% # Extract arguments.* from params
+  params = []
+  args = {}
+  member.params.each do |p|
+    params << p and next unless p.name.include? '.'
+
+    p = p.dup
+    name = p.name.split('.')
+    p.name = name.last
+
+    args[name.first] ||= []
+    args[name.first] << p
+  end
+  -%>
+  <div class="member_detail detail">
+    <% if params.present? %>
+      <div class="arguments">
+        <h2>Arguments</h2>
+        <ol>
+          <% params.each do |p| %>
+            <li><div class="type"><span class="param_name"><%= p.name %></span> : <%= link_to_symbol(p.param_type) %><%= ' <span class="optional">(Optional)</span>'.html_safe if p.is_optional %></div>
+            <% if p.description.present? %>
+              <div class="description"><%= p.description %></div>
+            <% end %>
+            </li>
+          <% end %>
+        </ol>
+      </div>
+    <% end %>
+
+    <% if args.present? %>
+      <div class="named_arguments">
+        <h2>Named Arguments</h2>
+        <% args.each do |name, params| %>
+          <div class="arguments">
+            <% if name != 'arguments' %>
+              <%= name %>
+            <% end %>
+            <ul>
+              <% params.each do |p| %>
+                <li><div class="type"><span class="param_name"><%= p.name %></span> : <%= link_to_symbol(p.param_type) %><%= ' <span class="optional">(Optional)</span>'.html_safe if p.is_optional %></div>
+                <% if p.description.present? %>
+                  <div class="description"><%= p.description %></div>
+                <% end %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="returns">
+      <h2>Returns</h2>
+      <ul>
+        <% if member.returns.blank? %>
+          <li>void</li>
+        <% else %>
+          <% member.returns.each do |r| %>
+            <li><%= returns_detail(r) %></li>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
+
