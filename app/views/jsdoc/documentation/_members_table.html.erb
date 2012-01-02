@@ -21,13 +21,12 @@
             <% else %>
               <%= m.name %>
             <% end %>
-
             <% if m.description.present? %>
               <div class="description">
                 <%= raw(first_line(m.description)) %> <span class="detail"><%= raw(without_first_line(m.description)) %></span>
               </div>
-              <%= render :partial => 'member_detail', :locals => {:member => m} %>
             <% end %>
+            <%= render :partial => 'member_detail', :locals => {:member => m} %>
           </td>
           <td><%= m.symbol == @symbol ? @symbol.name : link_to(m.symbol.name, symbol_path(m.symbol.alias) + "##{member_type.underscore}_#{m.name}") %></td>
         </tr>
