@@ -1,0 +1,4 @@
+$('#wrapper').removeClass('has_toolbar')
+$('#wrapper').html('<div id="content"><%= escape_javascript(render('welcome')) %></div>')
+
+document.title = "<%= escape_javascript("#{@project.name} (#{@version.version_number}) - API Documentation") %>"
