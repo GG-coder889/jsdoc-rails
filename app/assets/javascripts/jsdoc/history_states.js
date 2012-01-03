@@ -12,9 +12,10 @@ $(function () {
   }
 
   function loadPage (url) {
+    $('body').data('url', url.match(/[^#]+/)[0])
+
     var content = $('#content')
     content.addClass('loading')
-    content.data('url', url.match(/[^#]+/)[0])
     $.getScript(url, function () {
       content.removeClass('loading')
 
@@ -37,7 +38,7 @@ $(function () {
   }
 
   // Symbol URLs
-  $('a[href^="' + URL_ROOT + '"]').live('click', function (e) {
+  $('a[href^="' + URL_ROOT + '"]:not(.no_remote)').live('click', function (e) {
     if (this.href != location.href.match(/[^#]+/)[0]) {
         history.pushState(null, document.title, this.href)
     }
@@ -46,7 +47,7 @@ $(function () {
   })
 
   $(window).bind('popstate', function () {
-    if ($('#content').data('url') && $('#content').data('url') != location.href.match(/[^#]+/)[0]) {
+    if ($('body').data('url') != location.href.match(/[^#]+/)[0]) {
       loadPage(location.href)
     }
   })

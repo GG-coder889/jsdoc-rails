@@ -1,11 +1,5 @@
 <% content_for(:toolbar) do %>
-  <ul>
-    <li><%= link_to('Raw Source File', raw_source_path(@filename), :onclick => 'window.open(this.href);return false') %></li>
-  </ul>
+  <%= render 'source_toolbar' %>
 <% end %>
-<div id="source">
-  <header>
-    <h1>Source for: <%= @filename %></h1>
-  </header>
-  <pre><code><%= @source_code %></code></pre>
-</div>
+
+<%= render 'source' %>

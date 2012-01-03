@@ -1,0 +1,6 @@
+$('#wrapper').addClass('has_toolbar')
+$('#wrapper').html( '<div class="toolbar"><%= escape_javascript(render('jsdoc/documentation/source_toolbar')) %></div>'
+                  + '<div id="content"><%= escape_javascript(render('jsdoc/documentation/source')) %></div>'
+                  )
+
+document.title = "<%= escape_javascript("Source for: #{@filename} - Cocos2D JavaScript - API") %>"

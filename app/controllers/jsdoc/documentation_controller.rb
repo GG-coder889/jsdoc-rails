@@ -1,6 +1,6 @@
 module Jsdoc
   class DocumentationController < ApplicationController
-    layout proc{ |c| c.request.xhr? ? false : 'jsdoc/documentation_wrapper'}
+    layout 'jsdoc/documentation_wrapper'
 
     before_filter :get_project_and_version, :except => [:index]
     before_filter :get_root_symbols, :except => [:raw_source]

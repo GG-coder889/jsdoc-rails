@@ -1,2 +1,6 @@
-$('#content').html('<%= escape_javascript(render('jsdoc/documentation/symbol')) %>')
+$('#wrapper').addClass('has_toolbar')
+$('#wrapper').html( '<div class="toolbar"><%= escape_javascript(render('jsdoc/documentation/symbol_toolbar')) %></div>'
+                  + '<div id="content"><%= escape_javascript(render('jsdoc/documentation/symbol')) %></div>'
+                  )
+
 document.title = "<%= escape_javascript("#{@symbol.alias} - Cocos2D JavaScript - API") %>"
