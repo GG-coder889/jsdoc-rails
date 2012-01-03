@@ -14,6 +14,13 @@ $(function () {
   function loadPage (url) {
     $('body').data('url', url.match(/[^#]+/)[0])
 
+    var path = url.match(/http:\/\/[^\/]+([^#]*)/)[1]
+
+    // Pass to google analytics if available
+    if (typeof window._gaq != 'undefined' && typeof window._gaq.push == 'function') {
+        window._gaq.push(['_trackPageview', path])
+    }
+
     var content = $('#content')
       , wrapper = $('#wrapper')
     wrapper.addClass('loading')
