@@ -3,4 +3,4 @@ $('#wrapper').html( '<div class="toolbar"><%= escape_javascript(render('jsdoc/do
                   + '<div id="content"><%= escape_javascript(render('jsdoc/documentation/symbol')) %></div>'
                   )
 
-document.title = "<%= escape_javascript("#{@symbol.alias} - Cocos2D JavaScript - API") %>"
+document.title = "<%= escape_javascript("#{@symbol.alias} - #{@project.name} (#{@version.version_number}) - API Documentation") %>"
