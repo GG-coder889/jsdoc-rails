@@ -1,9 +1,10 @@
 <ul>
   <li>
-    <% if @symbol == branches.last %>
-      <%= branches.pop.name %>
+    <% leaf = branches.pop %>
+    <% if @symbol == leaf %>
+      <%= leaf.name %>
     <% else %>
-      <%= link_to_symbol(branches.pop.alias, branches.last.name) %>
+      <%= link_to_symbol(leaf.alias, leaf.name) %>
     <% end %>
     <% if branches.size > 0 %>
       <%= render :partial => 'inheritance_tree_branch', :locals => {:branches => branches} %>
