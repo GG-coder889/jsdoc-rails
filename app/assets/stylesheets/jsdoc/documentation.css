@@ -485,9 +485,16 @@ table.members .description {
     margin-top: 5px;
 }
 
-table.members .flag {
+table.members .flags {
+    margin-left: 1em;
     color: #aaa;
     font-style: italic;
+}
+table.members .flag {
+}
+table.members .construct {
+    font-weight: bold;
+    color: #777;
 }
 table.members .method_params {
     color: #777;

@@ -55,7 +55,14 @@
       <h2>Returns</h2>
       <ul>
         <% if member.returns.blank? %>
-          <li>void</li>
+          <% if member == @symbol.constructor %>
+            <li>
+            <div class="type"><%= link_to_symbol(@symbol.alias) %></div>
+            <div class="description">New instance of <%= @symbol.alias %></div>
+            </li>
+          <% else %>
+            <li>void</li>
+          <% end %>
         <% else %>
           <% member.returns.each do |r| %>
             <li><%= returns_detail(r) %></li>

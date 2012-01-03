@@ -10,17 +10,32 @@
       <% for m in members.sort{|x,y| x.name <=> y.name} %>
         <tr id="<%= anchorName(m) %>" class="<%= m.symbol == @symbol ? 'own' : 'borrowed' %> <%= member_type.underscore %>">
           <td class="expander"><%= link_to("Expand #{m.name}", '#' + anchorName(m), :title => "Expand #{m.alias}") %><td>
-            <% if m.is_static %><span class="flag">&lt;static&gt;</span><% end %>
-            <% if m.respond_to?('is_constant') and m.is_constant %><span class="flag">&lt;constant&gt;</span><% end %>
-            <% if m.respond_to?('is_readable') and m.is_readable and !m.is_writable %><span class="flag">&lt;read-only&gt;</span><% end %>
-            <% if m.respond_to?('is_readable') and m.is_writable and !m.is_readable %><span class="flag">&lt;write-only&gt;</span><% end %>
+
+            <% if m == @symbol.constructor %><span class="construct">new </span><% end %>
+
             <% if m.is_a?(Jsdoc::Property) %>
               <%= link_to(m.name, '#' + anchorName(m), :class => 'member_link') %> : <%= m.property_type.blank? ? '*' : link_to_symbol(m.property_type) %>
             <% elsif m.is_a?(Jsdoc::Function) %>
-              <%= link_to(m.name, '#' + anchorName(m), :class => 'member_link') %> <%= render :partial => 'param_list', :locals => {:params => m.params} %> : <span class="return_type"><%= m.returns.blank? ? 'void' : link_to_symbol(m.returns.first.return_type || m.returns.first.description) %></span>
+              <%= link_to(m.name, '#' + anchorName(m), :class => 'member_link') %> <%= render :partial => 'param_list', :locals => {:params => m.params} %> :
+
+              <% if m == @symbol.constructor %>
+                <span class="return_type"><%= m.returns.blank? ? link_to_symbol(@symbol.alias) : link_to_symbol(m.returns.first.return_type || m.returns.first.description) %></span>
+              <% else %>
+                <span class="return_type"><%= m.returns.blank? ? 'void' : link_to_symbol(m.returns.first.return_type || m.returns.first.description) %></span>
+              <% end %>
+
             <% else %>
               <%= m.name %>
             <% end %>
+
+            <span class="flags">
+              <% if m.is_static and m != @symbol.constructor %><span class="flag">&lt;static&gt;</span><% end %>
+              <% if m.respond_to?('is_constant') and m.is_constant %><span class="flag">&lt;constant&gt;</span><% end %>
+              <% if m.respond_to?('is_readable') and m.is_readable and !m.is_writable %><span class="flag">&lt;read-only&gt;</span><% end %>
+              <% if m.respond_to?('is_readable') and m.is_writable and !m.is_readable %><span class="flag">&lt;write-only&gt;</span><% end %>
+              <% if m == @symbol.constructor %><span class="flag">&lt;constructor&gt;</span><% end %>
+            </span>
+
             <% if m.description.present? %>
               <div class="description">
                 <%= raw(first_line(m.description)) %> <span class="detail"><%= raw(without_first_line(m.description)) %></span>
