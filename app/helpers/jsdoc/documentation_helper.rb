@@ -72,21 +72,38 @@ module Jsdoc::DocumentationHelper
     return output.html_safe
   end
 
-  def link_to_symbol(symbol_type)
+  def link_to_symbol(symbol_type, name=nil, html_options={})
     return nil if symbol_type.blank?
 
-    # split symbols on | or /
-    symbols = symbol_type.split(/\||\//)
+    if symbol_type.is_a? Array
+      symbols = symbol_type
+    elsif symbol_type.is_a? String
+      # split symbols on | or /
+      symbols = symbol_type.split(/\||\//)
+    else
+      symbols = [symbol_type]
+    end
+
+    anchor = html_options.delete(:anchor)
 
     html = ''
     symbols.each do |s|
-      symbol = Jsdoc::Symbol.where(:alias => s.gsub(/\[\]$/, '')).first
+      unless s.is_a? String or !s.respond_to?(:alias)
+        symbol = s
+        s = s.alias
+      else
+        symbol = Jsdoc::Symbol.where(:alias => s.gsub(/\[\]$/, '')).first
+      end
+
+      name ||= s
+
 
       html += '/' unless html.blank?
       if symbol.nil?
-        html += s
+        html += name
       else
-        html += link_to(s, symbol_path(symbol.alias), :class => 'symbol')
+        opts = {:class => 'symbol', :title => symbol.alias}.merge(html_options)
+        html += link_to(name, symbol_path(symbol.alias, :anchor => anchor), opts)
       end
     end
 

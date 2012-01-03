@@ -9,8 +9,9 @@
     <tbody>
       <% for m in members.sort{|x,y| x.name <=> y.name} %>
         <tr id="<%= anchorName(m) %>" class="<%= m.symbol == @symbol ? 'own' : 'borrowed' %> <%= member_type.underscore %>">
-          <td class="expander"><%= link_to("Expand #{m.name}", '#' + anchorName(m), :title => "Expand #{m.alias}") %><td>
+          <td class="expander"><%= link_to("Expand #{m.name}", '#' + anchorName(m), :title => "Expand #{m.alias}") %></td>
 
+          <td>
             <% if m == @symbol.constructor %><span class="construct">new </span><% end %>
 
             <% if m.is_a?(Jsdoc::Property) %>
@@ -43,7 +44,7 @@
             <% end %>
             <%= render :partial => 'member_detail', :locals => {:member => m} %>
           </td>
-          <td><%= m.symbol == @symbol ? @symbol.name : link_to(m.symbol.name, symbol_path(m.symbol.alias) + "##{member_type.underscore}_#{m.name}") %></td>
+          <td><%= m.symbol == @symbol ? @symbol.name : link_to_symbol(m.symbol, m.symbol.name, :anchor => "#{member_type.underscore}_#{m.name}") %></td>
         </tr>
       <% end %>
     </tbody>

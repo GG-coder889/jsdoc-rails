@@ -17,13 +17,13 @@
       <% if @symbol.subclasses.size > 0 %>
         <dt class="subclasses">Subclasses</dt>
         <% for subclass in @symbol.subclasses %>
-          <dd class="subclasses<%= ' last' if @symbol.subclasses.last == subclass %>"><%= link_to_symbol(subclass.alias) %></dd>
+          <dd class="subclasses<%= ' last' if @symbol.subclasses.last == subclass %>"><%= link_to_symbol(subclass, subclass.name) %></dd>
         <% end %>
       <% end %>
 
       <% if @symbol.extends.present? %>
         <dt>Extends</dt>
-        <dd><%= link_to(@symbol.extends, symbol_path(@symbol.extends)) %></dd>
+        <dd><%= link_to_symbol(@symbol.extends, @symbol.extends.split('.').last) %></dd>
       <% end %>
 
       <% if @symbol.requires.size > 0 %>
