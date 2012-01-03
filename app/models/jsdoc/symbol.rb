@@ -24,6 +24,8 @@ module Jsdoc
     scope :classes, where(:symbol_type => 'class')
     scope :functions, where(:symbol_type => 'function')
 
+    before_save :expire_cache
+
     def functions
       return Jsdoc::Function.for_symbol(self)
     end
@@ -56,6 +58,17 @@ module Jsdoc
       return true if properties.private.present?
       return true if functions.private.present?
       return false
+    end
+
+    def expire_cache
+      ActionController::Base.new.expire_fragment("symbol_#{self.version_id_was}_#{self.alias_was}")
+      ActionController::Base.new.expire_fragment("symbol_#{self.version_id}_#{self.alias}")
+
+      if self.name_changed? or self.alias_changed? or self.version_id_changed? or self.project_id_changed?
+        ActionController::Base.new.expire_fragment("aside")
+      end
+
+      true
     end
   end
 end

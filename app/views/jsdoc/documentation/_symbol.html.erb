@@ -1,3 +1,4 @@
+<% cache("symbol_#{@symbol.version_id}_#{@symbol.alias}") do %>
 <div id="symbol">
   <header>
     <section id="inheritance_tree">
@@ -98,3 +99,4 @@
     <% end %>
   </section>
 </div>
+<% end %>
