@@ -365,7 +365,7 @@ aside + #wrapper {
     left: 0;
     overflow: auto;
 }
-#content.loading::before {
+#wrapper.loading::before {
     content: '';
     background-image: url(/assets/jsdoc/icons/spinner.gif);
     background-position: center center;
@@ -377,7 +377,7 @@ aside + #wrapper {
     /* half 261px left margin - half image size (14)*/
     margin: 32px 0 0 116px;
 }
-#content.loading > *:first-child {
+#wrapper.loading #content {
     opacity: 0.25;
 }
 
