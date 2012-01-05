@@ -64,7 +64,7 @@ module Jsdoc
       ActionController::Base.new.expire_fragment("symbol_#{self.version_id_was}_#{self.alias_was}")
       ActionController::Base.new.expire_fragment("symbol_#{self.version_id}_#{self.alias}")
 
-      if self.name_changed? or self.alias_changed? or self.version_id_changed? or self.project_id_changed?
+      if self.name_changed? or self.alias_changed? or self.version_id_changed?
         ActionController::Base.new.expire_fragment("aside")
       end
 
