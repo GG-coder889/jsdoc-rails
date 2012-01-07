@@ -550,6 +550,16 @@ table.members tr.collapsed .detail {
     margin-bottom: 0;
     color: #444;
 }
+#symbol table.members tr .detail h3 {
+    font-size: 1.0em;
+    margin-bottom: 0;
+    margin-left: 1em;
+    color: #444;
+}
+#symbol table.members tr .detail h3::after {
+    content: ':';
+}
+
 table.members tr .detail ul,
 table.members tr .detail ol {
     margin-top: 0.5em;

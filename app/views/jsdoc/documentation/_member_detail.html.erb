@@ -32,13 +32,13 @@
     <% if args.present? %>
       <div class="named_arguments">
         <h2>Named Arguments</h2>
-        <% args.each do |name, params| %>
+        <% args.each do |name, arg_params| %>
           <div class="arguments">
-            <% if name != 'arguments' %>
-              <%= name %>
+            <% if params.present? %>
+              <h3><%= name %></h3>
             <% end %>
             <ul>
-              <% params.each do |p| %>
+              <% arg_params.each do |p| %>
                 <li><div class="type"><span class="param_name"><%= p.name %></span> : <%= link_to_symbol(p.param_type) %><%= ' <span class="optional">(Optional)</span>'.html_safe if p.is_optional %></div>
                 <% if p.description.present? %>
                   <div class="description"><%= p.description %></div>

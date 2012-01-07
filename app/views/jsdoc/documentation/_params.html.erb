@@ -1,2 +1,2 @@
 <span class="param_list"><% params.each do |p| -%><% if p != params.first -%>,<% end -%><span class="param<%= " optional" if p.is_optional %>"><%= '[' if p.is_optional -%>
-<span class="param_name"><%= p.name %></span>:<span class="param_type"><%= p.param_type.present? ? p.param_type.split('|').map{|x| link_to_symbol(x)}.join('|').html_safe : '*' %></span><%= ']' if p.is_optional %></span><% end %></span>
+<span class="param_name"><%= p.name %></span>:<span class="param_type"><%= p.param_type.present? ? link_to_symbol(p.param_type) : '*' %></span><%= ']' if p.is_optional %></span><% end %></span>
