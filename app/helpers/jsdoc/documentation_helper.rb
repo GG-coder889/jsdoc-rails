@@ -95,15 +95,15 @@ module Jsdoc::DocumentationHelper
         symbol = Jsdoc::Symbol.where(:alias => s.gsub(/\[\]$/, '')).first
       end
 
-      name ||= s
+      link_name = name || s
 
 
       html += '/' unless html.blank?
       if symbol.nil?
-        html += name
+        html += link_name
       else
         opts = {:class => 'symbol', :title => symbol.alias}.merge(html_options)
-        html += link_to(name, symbol_path(symbol.alias, :anchor => anchor), opts)
+        html += link_to(link_name, symbol_path(symbol.alias, :anchor => anchor), opts)
       end
     end
 
