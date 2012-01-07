@@ -61,14 +61,17 @@ $(function () {
   }
 
 
-  // Symbol URLs
-  $('a[href^="' + URL_ROOT + '"]:not(.no_remote)').live('click', function (e) {
-    if (this.href != location.href.match(/[^#]+/)[0]) {
-        history.pushState({page: this.href}, document.title, this.href)
-    }
-    loadPage(this.href)
-    e.preventDefault()
-  })
+  // Delay this so API tree events attach first
+  setTimeout(function () {
+      // Symbol URLs
+      $('a[href^="' + URL_ROOT + '"]:not(.no_remote)').live('click', function (e) {
+        if (this.href != location.href.match(/[^#]+/)[0]) {
+            history.pushState({page: this.href}, document.title, this.href)
+        }
+        loadPage(this.href)
+        e.preventDefault()
+      })
+  }, 1)
 
 
   $(window).bind('popstate', function (e) {

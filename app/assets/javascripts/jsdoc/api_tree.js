@@ -11,5 +11,15 @@ $(function () {
 
     $('.tree .namespace > ul').siblings('a').addClass('collapsed')
     $('.tree .namespace > ul').hide()
-    $('.tree .namespace > a').bind('click', function () { $.toggleBranch(this) })
+    $('.tree .namespace > a').bind('click', function (e) {
+        console.log()
+        var pad = $(this).outerWidth() - $(this).width()
+        if (e.offsetX < 20 + pad) {
+            if (e.offsetX > pad) {
+                $.toggleBranch(this)
+            }
+            e.preventDefault()
+            e.stopPropagation()
+        }
+    })
 })
