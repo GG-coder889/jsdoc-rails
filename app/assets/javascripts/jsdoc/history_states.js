@@ -52,6 +52,9 @@ $(function () {
     }
 
     if ($li[0]) {
+      $.toggleBranch($li.parents('ul:hidden').siblings('a'), function () {
+          scrollIntoView($li.children('a')[0], 'aside nav')
+      })
       $li.addClass('current')
       scrollIntoView($li.children('a')[0], 'aside nav')
     }

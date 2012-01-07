@@ -169,9 +169,13 @@ body > aside li li > a::before {
     width: 36px;
     background-position: 0px top, 18px center;
     background-repeat: no-repeat;
-    background-image: url(/assets/jsdoc/icons/elbow-plus.gif), url(/assets/jsdoc/icons/docs.gif);
+    background-image: none, url(/assets/jsdoc/icons/docs.gif);
 }
-body > aside li:last-child > a::before {
+body > aside li li > a.expanded::before {
+    background-image: url(/assets/jsdoc/icons/elbow-minus.gif), url(/assets/jsdoc/icons/docs.gif);
+}
+body > aside li li > a.collasped::before {
+    background-image: url(/assets/jsdoc/icons/elbow-plus.gif), url(/assets/jsdoc/icons/docs.gif);
 }
 body > aside li.class > a::before {
     background-image: none, url(/assets/jsdoc/icons/class.gif);
@@ -179,6 +183,12 @@ body > aside li.class > a::before {
 body > aside li.class:last-child > a::before {
 }
 body > aside li.namespace > a::before {
+    background-image: none, url(/assets/jsdoc/icons/pkg.gif);
+}
+body > aside li.namespace > a.expanded::before {
+    background-image: url(/assets/jsdoc/icons/elbow-minus.gif), url(/assets/jsdoc/icons/pkg.gif);
+}
+body > aside li.namespace > a.collapsed::before {
     background-image: url(/assets/jsdoc/icons/elbow-plus.gif), url(/assets/jsdoc/icons/pkg.gif);
 }
 body > aside li.namespace:last-child > a::before {
