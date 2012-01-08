@@ -1,5 +1,5 @@
 $('#wrapper').addClass('has_toolbar')
-$('#wrapper').html( '<div class="toolbar"><%= escape_javascript(render('jsdoc/documentation/symbol_toolbar')) %></div>'
+$('#wrapper').html( '<nav class="toolbar"><%= escape_javascript(render('jsdoc/documentation/symbol_toolbar')) %></nav>'
                   + '<div id="content"><%= escape_javascript(render('jsdoc/documentation/symbol')) %></div>'
                   )
 

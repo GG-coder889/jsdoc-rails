@@ -1,3 +1,17 @@
 <ul>
-  <li><%= link_to('Public Properties', '#public_properties') %></li><li><%= link_to('Public Methods', '#public_methods') %></li><li><%= link_to('Public Events', '#public_events') %></li><li><%= link_to('Private Properties', '#private_properties') %></li><li><%= link_to('Private Methods', '#private_methods') %></li><li><%= link_to('Private Events', '#private_events') %></li>
+  <li class="properties">
+    <%= link_to('Properties', '#ffoo') -%>
+    <ul>
+      <% @symbol.properties.order('"jsdoc_properties"."name"').each do |prop| %>
+        <li class="<%= (prop.symbol == @symbol) ? 'own' : 'borrowed' %>"><%= link_to(prop.name, '#' + anchorName(prop)) %></li>
+      <% end %>
+    </ul>
+  </li><li class="methods">
+    <%= link_to('Methods', '#ffoo') -%>
+    <ul>
+      <% @symbol.functions.order('"jsdoc_functions"."name"').each do |func| %>
+        <li class="<%= (func.symbol == @symbol) ? 'own' : 'borrowed' %>"><%= link_to(func.name, '#' + anchorName(func)) %></li>
+      <% end %>
+    </ul>
+  </li>
 </ul>
