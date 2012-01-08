@@ -9,7 +9,7 @@
   </li><li class="methods">
     <%= link_to('Methods', '#ffoo') -%>
     <ul>
-      <% @symbol.functions.order('"jsdoc_functions"."name"').each do |func| %>
+      <% @symbol.functions.method_types.order('"jsdoc_functions"."name"').each do |func| %>
         <li class="<%= (func.symbol == @symbol) ? 'own' : 'borrowed' %>"><%= link_to(func.name, '#' + anchorName(func)) %></li>
       <% end %>
     </ul>
